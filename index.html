@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Aplikasi Kendaraan - PT ANISA JAYA UTAMA</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Kendaraan</title>
   <link rel="stylesheet" href="styles.css">
+  <script>
+    window.onload = () => {
+      if (localStorage.getItem("user")) {
+        window.location.href = "dashboard.html";
+      } else {
+        window.location.href = "login.html";
+      }
+    };
+  </script>
 </head>
-<body>
-  <div class="login-box">
-    <img src="logo Anything2 tanpa pinggiran.png" alt="Logo">
-    <h2>PT ANISA JAYA UTAMA</h2>
-    <h4>Manajemen Kendaraan Kantor</h4>
-    <p class="info">Aplikasi sederhana untuk memantau STNK, KIR, dan servis kendaraan</p>
-    <div style="text-align:center;margin-top:12px">
-      <a class="btn" href="login.html">Login</a>
-      <a class="btn secondary" href="register.html">Daftar</a>
-    </div>
-  </div>
-</body>
+<body></body>
 </html>
