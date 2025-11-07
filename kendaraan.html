@@ -3,35 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Kendaraan</title>
+  <title>Tambah Kendaraan</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2>Data Kendaraan</h2>
-  <form id="formKendaraan">
-    <input type="text" id="plat" placeholder="Plat Nomor" required>
-    <input type="text" id="letak" placeholder="Letak Kendaraan" required>
-    <input type="date" id="stnk" required>
-    <input type="date" id="kir" required>
-    <input type="date" id="servis" required>
-    <button type="submit">Simpan</button>
-  </form>
+  <header>
+    <h2>Tambah Data Kendaraan</h2>
+    <button onclick="goTo('dashboard.html')">Kembali</button>
+  </header>
 
-  <table id="tabelKendaraan">
-    <thead>
-      <tr>
-        <th>Plat</th>
-        <th>Letak</th>
-        <th>STNK</th>
-        <th>KIR</th>
-        <th>Servis</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <main class="form-container">
+    <input type="text" id="platNomor" placeholder="Plat Nomor">
+    <input type="text" id="letak" placeholder="Letak">
+    <input type="text" id="stnk" placeholder="STNK">
+    <input type="text" id="statusStnk" placeholder="Status STNK">
+    <input type="text" id="kir" placeholder="KIR">
+    <input type="text" id="statusKir" placeholder="Status KIR">
+    <input type="date" id="servisTerakhir">
+    <button onclick="tambahKendaraan()">Simpan</button>
+  </main>
 
-  <button onclick="goTo('dashboard.html')">Kembali ke Dashboard</button>
   <script src="app.js"></script>
 </body>
 </html>
