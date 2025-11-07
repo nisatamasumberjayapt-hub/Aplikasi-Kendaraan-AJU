@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambah User/Admin</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+<header>Tambah User / Admin</header>
+<nav>
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="kendaraan.html">🚗 Kendaraan</a>
+  <a href="register.html">👤 Tambah User/Admin</a>
+  <a href="#" onclick="logout()">🚪 Logout</a>
+</nav>
+
+<div class="container">
+  <h2>Form Tambah User/Admin</h2>
+  <input type="text" id="newUsername" placeholder="Username">
+  <input type="text" id="nama" placeholder="Nama Lengkap">
+  <select id="role">
+    <option value="user">User</option>
+    <option value="admin">Admin</option>
+  </select>
+  <input type="password" id="newPassword" placeholder="Password">
+  <button onclick="tambahUser()">Simpan User</button>
+  <table id="userTable">
+    <thead>
+      <tr><th>Username</th><th>Nama</th><th>Role</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
+</body>
+</html>
