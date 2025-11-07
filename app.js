@@ -1,97 +1,59 @@
-// =============================
-// PT ANISA JAYA UTAMA - FRONTEND
-// =============================
-const scriptURL = "https://script.google.com/macros/s/AKfycbx4_kLI7M7VK5QleIV1EkbP9uItlw2dDqQNalg_PsOmSZ4lr5TITVs-3ZTjiAjqtLov/exec"; // dari Google Apps Script
+const scriptURL = "https://script.google.com/macros/s/AKfycbx.../exec"; // ganti dengan URL Web App milikmu
 
 // === LOGIN ===
-async function login(event) {
+async function handleLogin(event) {
   event.preventDefault();
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  const res = await fetch(scriptURL, {
+  const response = await fetch(scriptURL + '?action=loginUser', {
     method: 'POST',
-    body: JSON.stringify({ action: 'login', username, password }),
+    body: JSON.stringify({ username, password })
   });
-  const result = await res.json();
 
+  const result = await response.json();
   if (result.success) {
-    localStorage.setItem('loggedIn', 'true');
-    localStorage.setItem('role', result.role);
-    alert('Login berhasil!');
+    localStorage.setItem('loggedInUser', username);
     window.location.href = 'dashboard.html';
   } else {
-    alert(result.message);
+    alert('Login gagal. Periksa username dan password.');
   }
 }
 
 // === REGISTER ===
-async function register(event) {
+async function handleRegister(event) {
   event.preventDefault();
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+  const username = document.getElementById('regUsername').value;
+  const password = document.getElementById('regPassword').value;
+  const role = document.getElementById('regRole').value;
 
-  const res = await fetch(scriptURL, {
+  const response = await fetch(scriptURL + '?action=registerUser', {
     method: 'POST',
-    body: JSON.stringify({ action: 'register', username, password, role: 'user' }),
+    body: JSON.stringify({ username, password, role })
   });
-  const result = await res.json();
 
+  const result = await response.json();
   alert(result.message);
-  if (result.success) window.location.href = 'login.html';
 }
 
-// === SIMPAN KENDARAAN ===
-async function tambahKendaraan(event) {
+// === TAMBAH KENDARAAN ===
+async function handleTambahKendaraan(event) {
   event.preventDefault();
-  const data = {
-    action: 'saveKendaraan',
-    plat_nomor: document.getElementById('plat').value,
+  const formData = {
+    plat: document.getElementById('plat').value,
     letak: document.getElementById('letak').value,
     stnk: document.getElementById('stnk').value,
-    status_stnk: document.getElementById('status_stnk').value,
+    statusStnk: document.getElementById('statusStnk').value,
     kir: document.getElementById('kir').value,
-    status_kir: document.getElementById('status_kir').value,
-    servis_terakhir: document.getElementById('servis_terakhir').value,
-    selisih_servis: document.getElementById('selisih_servis').value
+    statusKir: document.getElementById('statusKir').value,
+    servis: document.getElementById('servis').value
   };
 
-  const res = await fetch(scriptURL, {
+  const response = await fetch(scriptURL + '?action=tambahKendaraan', {
     method: 'POST',
-    body: JSON.stringify(data),
+    body: JSON.stringify(formData)
   });
-  const result = await res.json();
 
+  const result = await response.json();
   alert(result.message);
-}
-
-// === AMBIL DATA KENDARAAN ===
-async function loadKendaraan() {
-  const res = await fetch(scriptURL, {
-    method: 'POST',
-    body: JSON.stringify({ action: 'getKendaraan' }),
-  });
-  const data = await res.json();
-  const tbody = document.querySelector('#tabelKendaraan tbody');
-  tbody.innerHTML = '';
-
-  data.forEach(item => {
-    const row = `<tr>
-      <td>${item.plat_nomor}</td>
-      <td>${item.letak}</td>
-      <td>${item.stnk}</td>
-      <td>${item.status_stnk}</td>
-      <td>${item.kir}</td>
-      <td>${item.status_kir}</td>
-      <td>${item.servis_terakhir}</td>
-      <td>${item.selisih_servis}</td>
-    </tr>`;
-    tbody.insertAdjacentHTML('beforeend', row);
-  });
-}
-
-// === LOGOUT ===
-function logout() {
-  localStorage.clear();
-  window.location.href = 'login.html';
 }
