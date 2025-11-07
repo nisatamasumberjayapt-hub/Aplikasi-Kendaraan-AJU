@@ -1,253 +1,60 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Manajemen Kendaraan</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-
-    header {
-      background-color: #1976d2;
-      color: white;
-      padding: 1.2rem 2rem;
-      text-align: center;
-      font-size: 1.6rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: 30px auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      padding: 30px;
-    }
-
-    h2 {
-      text-align: center;
-      color: #1565c0;
-      margin-bottom: 25px;
-    }
-
-    form {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
-      margin-bottom: 30px;
-    }
-
-    label {
-      font-weight: 600;
-      margin-bottom: 5px;
-      display: block;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    button {
-      background-color: #1976d2;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 14px;
-    }
-
-    button:hover {
-      background-color: #1565c0;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-
-    th, td {
-      border-bottom: 1px solid #ddd;
-      padding: 10px 12px;
-      text-align: center;
-    }
-
-    th {
-      background-color: #2196f3;
-      color: white;
-    }
-
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    .status {
-      font-weight: 600;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 6px;
-    }
-
-    .aman { background-color: #4caf50; }
-    .hampir { background-color: #ff9800; }
-    .kadaluarsa { background-color: #f44336; }
-
-    .search-container {
-      margin-bottom: 15px;
-      text-align: right;
-    }
-
-    .search-container input {
-      padding: 8px;
-      width: 250px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kendaraan</title>
+<style>
+  body{font-family:'Segoe UI',sans-serif;background:#f4f6f9;margin:0;padding:0;}
+  header{background:#0d47a1;color:white;padding:15px;text-align:center;font-size:1.3em;}
+  .container{max-width:800px;margin:40px auto;background:white;padding:30px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1);}
+  input,button{padding:10px;margin:8px;width:100%;border-radius:8px;border:1px solid #ccc;}
+  button{background:#0d47a1;color:white;border:none;font-weight:bold;cursor:pointer;}
+  button:hover{background:#1565c0;}
+  table{width:100%;border-collapse:collapse;margin-top:20px;}
+  th,td{padding:8px;text-align:center;border-bottom:1px solid #ccc;}
+  th{background:#0d47a1;color:white;}
+</style>
 </head>
 <body>
-  <header>Dashboard Kendaraan</header>
-  <main>
-    <h2>Form Kendaraan</h2>
-    <form id="formKendaraan">
-      <div>
-        <label>Plat Nomor</label>
-        <input type="text" id="plat" required>
-      </div>
-      <div>
-        <label>Tanggal Kadaluarsa STNK</label>
-        <input type="date" id="stnk" required>
-      </div>
-      <div>
-        <label>Tanggal Kadaluarsa KIR</label>
-        <input type="date" id="kir" required>
-      </div>
-      <div>
-        <label>Letak Kendaraan</label>
-        <input type="text" id="lokasi" required>
-      </div>
-      <div>
-        <label>Tanggal Servis Terakhir</label>
-        <input type="date" id="servis" required>
-      </div>
-      <button type="submit">Simpan</button>
-    </form>
-
-    <div class="search-container">
-      <input type="text" id="search" placeholder="Cari berdasarkan plat atau lokasi...">
-    </div>
-
-    <table id="tabelKendaraan">
-      <thead>
-        <tr>
-          <th>Plat Nomor</th>
-          <th>Letak Kendaraan</th>
-          <th>Kadaluarsa STNK</th>
-          <th>Kadaluarsa KIR</th>
-          <th>Servis Terakhir</th>
-          <th>Status</th>
-          <th>Keterangan</th>
-          <th>Aksi</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </main>
-
-  <script>
-    const form = document.getElementById('formKendaraan');
-    const tabel = document.querySelector('#tabelKendaraan tbody');
-    const search = document.getElementById('search');
-    let dataKendaraan = [];
-
-    function hitungStatus(tanggal) {
-      const sekarang = new Date();
-      const tgl = new Date(tanggal);
-      const selisih = Math.ceil((tgl - sekarang) / (1000 * 60 * 60 * 24));
-      if (selisih < 0) return {status: 'kadaluarsa', teks: `Sudah terlewat ${Math.abs(selisih)} hari`};
-      if (selisih <= 7) return {status: 'hampir', teks: `Kurang ${selisih} hari`};
-      return {status: 'aman', teks: `Masih ${selisih} hari lagi`};
-    }
-
-    function renderTabel() {
-      tabel.innerHTML = '';
-      const kata = search.value.toLowerCase();
-      dataKendaraan
-        .filter(k => k.plat.toLowerCase().includes(kata) || k.lokasi.toLowerCase().includes(kata))
-        .forEach((k, i) => {
-          const stnk = hitungStatus(k.stnk);
-          const kir = hitungStatus(k.kir);
-          const servis = hitungStatus(k.servis);
-          const row = `
-            <tr>
-              <td>${k.plat}</td>
-              <td>${k.lokasi}</td>
-              <td>${k.stnk}</td>
-              <td>${k.kir}</td>
-              <td>${k.servis}</td>
-              <td><span class="status ${stnk.status}">${stnk.status.toUpperCase()}</span></td>
-              <td>${stnk.teks}</td>
-              <td>
-                <button onclick="editData(${i})">Edit</button>
-                <button onclick="hapusData(${i})" style="background:#d32f2f;">Hapus</button>
-              </td>
-            </tr>`;
-          tabel.innerHTML += row;
-        });
-    }
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const plat = document.getElementById('plat').value.trim();
-      if (dataKendaraan.some(k => k.plat === plat)) {
-        alert('Plat Nomor sudah terdaftar!');
-        return;
-      }
-      dataKendaraan.push({
-        plat,
-        stnk: document.getElementById('stnk').value,
-        kir: document.getElementById('kir').value,
-        lokasi: document.getElementById('lokasi').value,
-        servis: document.getElementById('servis').value
-      });
-      form.reset();
-      renderTabel();
-    });
-
-    function hapusData(i) {
-      if (confirm('Apakah yakin ingin menghapus data ini?')) {
-        dataKendaraan.splice(i, 1);
-        renderTabel();
-      }
-    }
-
-    function editData(i) {
-      if (confirm('Apakah yakin ingin mengedit data ini?')) {
-        const d = dataKendaraan[i];
-        document.getElementById('plat').value = d.plat;
-        document.getElementById('stnk').value = d.stnk;
-        document.getElementById('kir').value = d.kir;
-        document.getElementById('lokasi').value = d.lokasi;
-        document.getElementById('servis').value = d.servis;
-        dataKendaraan.splice(i, 1);
-      }
-    }
-
-    search.addEventListener('input', renderTabel);
-  </script>
+<header>Form Kendaraan</header>
+<div class="container">
+  <h3>Tambah / Edit Kendaraan</h3>
+  <input id="plat" placeholder="Plat Nomor (unik)" />
+  <input id="lokasi" placeholder="Letak Kendaraan" />
+  <input type="date" id="stnk" placeholder="Tgl STNK" />
+  <input type="date" id="kir" placeholder="Tgl KIR" />
+  <input type="date" id="servis" placeholder="Tgl Servis" />
+  <button onclick="simpan()">Simpan</button>
+  <input id="cari" placeholder="Cari Plat / Lokasi" />
+  <table>
+    <thead><tr><th>Plat</th><th>Lokasi</th><th>STNK</th><th>KIR</th><th>Servis</th><th>Aksi</th></tr></thead>
+    <tbody id="tabel"></tbody>
+  </table>
+</div>
+<script>
+  const tabel = document.getElementById('tabel');
+  let data = JSON.parse(localStorage.getItem('dataKendaraan'))||[];
+  function render(){
+    tabel.innerHTML="";
+    const cari=document.getElementById('cari').value.toLowerCase();
+    data.filter(k=>k.plat.toLowerCase().includes(cari)||k.lokasi.toLowerCase().includes(cari))
+    .forEach((k,i)=>{tabel.innerHTML+=`
+      <tr><td>${k.plat}</td><td>${k.lokasi}</td><td>${k.stnk}</td><td>${k.kir}</td><td>${k.servis}</td>
+      <td><button onclick="edit(${i})">Edit</button><button onclick="hapus(${i})">Hapus</button></td></tr>`});
+  }
+  function simpan(){
+    const p={plat:plat.value.trim(),lokasi:lokasi.value,stnk:stnk.value,kir:kir.value,servis:servis.value};
+    if(!p.plat)return alert("Plat wajib diisi");
+    if(data.some(d=>d.plat===p.plat && d!==editItem))return alert("Plat sudah ada!");
+    if(editItem){Object.assign(editItem,p);editItem=null;}else data.push(p);
+    localStorage.setItem('dataKendaraan',JSON.stringify(data));render();
+    plat.value=lokasi.value=stnk.value=kir.value=servis.value="";
+  }
+  let editItem=null;
+  function edit(i){if(confirm("Edit data ini?")){editItem=data[i];plat.value=editItem.plat;lokasi.value=editItem.lokasi;stnk.value=editItem.stnk;kir.value=editItem.kir;servis.value=editItem.servis;}}
+  function hapus(i){if(confirm("Hapus data ini?")){data.splice(i,1);localStorage.setItem('dataKendaraan',JSON.stringify(data));render();}}
+  cari.oninput=render;render();
+</script>
 </body>
 </html>
