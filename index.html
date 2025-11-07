@@ -3,113 +3,201 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - PT ANISA JAYA UTAMA BY ROY</title>
+<title>Dashboard - PT ANISA JAYA UTAMA BY ROY</title>
 <style>
+* { box-sizing: border-box; }
 body {
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(120deg, #dfe6e9, #74b9ff);
-  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: #f1f2f6;
+  color: #2d3436;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
-.login-container {
+.sidebar {
+  width: 230px;
+  background: #0984e3;
+  color: white;
+  height: 100vh;
+  padding-top: 20px;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+.sidebar button {
+  display: block;
+  width: 90%;
+  margin: 10px auto;
+  padding: 10px;
+  border: none;
+  background: #74b9ff;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.sidebar button:hover {
+  background: #a29bfe;
+}
+.main {
+  margin-left: 250px;
+  padding: 25px;
+  width: 100%;
+}
+.header {
   background: white;
-  width: 350px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  padding: 30px;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #0984e3;
+}
+table {
+  width: 100%;
+  margin-top: 25px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
   text-align: center;
 }
-h2 {
-  margin-bottom: 20px;
-  color: #2d3436;
-}
-input {
-  width: 90%;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 1px solid #b2bec3;
-}
-button {
-  background-color: #0984e3;
+th {
+  background: #0984e3;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
 }
-button:hover {
-  background-color: #74b9ff;
-}
-.toggle {
-  position: absolute;
-  right: 35px;
-  margin-top: -35px;
-  cursor: pointer;
-  color: gray;
-}
-.logo-title {
+.status {
   font-weight: bold;
-  font-size: 20px;
-  color: #2d3436;
-  margin-bottom: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: white;
 }
+.green { background: #00b894; }
+.yellow { background: #fdcb6e; color: black; }
+.red { background: #d63031; }
 </style>
 </head>
 <body>
-<div class="login-container">
-  <div class="logo-title">PT ANISA JAYA UTAMA<br>BY ROY</div>
-  <h2>Login Aplikasi</h2>
-  <input type="text" id="username" placeholder="Username">
-  <div style="position:relative;">
-    <input type="password" id="password" placeholder="Password">
-    <span class="toggle" onclick="togglePassword()">👁️</span>
+
+<div class="sidebar">
+  <h2>🚗 Menu</h2>
+  <button onclick="window.location.href='kendaraan.html'">Kendaraan</button>
+  <button id="userMenu" onclick="window.location.href='user.html'">Tambah User/Admin</button>
+  <button onclick="logout()">Keluar</button>
+</div>
+
+<div class="main">
+  <div class="header">
+    <h2>Selamat Datang di Dashboard</h2>
+    <div class="user-info">
+      <span id="userName"></span>
+      <img id="userFoto" src="https://via.placeholder.com/50">
+    </div>
   </div>
-  <button onclick="login()">Masuk</button>
-  <p id="msg" style="color:red;font-weight:bold;"></p>
+
+  <h3 style="margin-top:25px;">📋 Daftar Kendaraan</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Plat Nomor</th>
+        <th>Letak Kendaraan</th>
+        <th>Kadaluarsa STNK</th>
+        <th>Kadaluarsa KIR</th>
+        <th>Status STNK</th>
+        <th>Status KIR</th>
+        <th>Tanggal Servis</th>
+        <th>Keterangan Servis</th>
+      </tr>
+    </thead>
+    <tbody id="kendaraanTabel"></tbody>
+  </table>
 </div>
 
 <script>
-let attempts = 0;
-if (!localStorage.getItem("users")) {
-  const defaultUsers = [
-    { username: "admin", password: "12345", role: "admin", nama: "Admin Utama" },
-    { username: "user", password: "12345", role: "user", nama: "User Biasa" }
-  ];
-  localStorage.setItem("users", JSON.stringify(defaultUsers));
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "login.html";
 }
 
-function togglePassword() {
-  const pass = document.getElementById("password");
-  pass.type = pass.type === "password" ? "text" : "password";
-}
-
-function login() {
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const msg = document.getElementById("msg");
-
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-  const user = users.find(u => u.username === username && u.password === password);
-
-  if (user) {
-    localStorage.setItem("loggedInUser", JSON.stringify(user));
-    alert(`Selamat datang, ${user.nama}!`);
-    window.location.href = "dashboard.html";
-  } else {
-    attempts++;
-    msg.innerText = `Username atau password salah! Percobaan ke-${attempts}`;
-    document.getElementById("username").value = "";
-    document.getElementById("password").value = "";
-    if (attempts >= 3) {
-      alert("Terlalu banyak percobaan salah. Aplikasi ditutup.");
-      document.body.innerHTML = "<h1 style='text-align:center;color:red;'>Akses ditolak!</h1>";
-    }
+function loadUser() {
+  const user = JSON.parse(localStorage.getItem("loggedInUser"));
+  if (!user) {
+    alert("Silakan login dulu!");
+    window.location.href = "login.html";
+    return;
+  }
+  document.getElementById("userName").textContent = user.nama || user.username;
+  document.getElementById("userFoto").src = user.foto || "https://via.placeholder.com/50";
+  
+  if (user.role !== "admin") {
+    document.getElementById("userMenu").style.display = "none";
   }
 }
+
+function loadKendaraan() {
+  const data = JSON.parse(localStorage.getItem("kendaraan")) || [];
+  const tbody = document.getElementById("kendaraanTabel");
+  tbody.innerHTML = "";
+
+  const now = new Date();
+
+  data.forEach(k => {
+    const tr = document.createElement("tr");
+
+    const tglSTNK = new Date(k.stnk);
+    const tglKIR = new Date(k.kir);
+    const tglServis = new Date(k.servis);
+    
+    const diffSTNK = Math.ceil((tglSTNK - now) / (1000 * 60 * 60 * 24));
+    const diffKIR = Math.ceil((tglKIR - now) / (1000 * 60 * 60 * 24));
+    const diffServis = Math.ceil((now - tglServis) / (1000 * 60 * 60 * 24));
+    
+    function statusHari(sisa) {
+      if (sisa < 0) return `<span class='status red'>Lewat ${Math.abs(sisa)} hr</span>`;
+      if (sisa <= 7) return `<span class='status yellow'>${sisa} hr lg</span>`;
+      return `<span class='status green'>Aman (${sisa} hr)</span>`;
+    }
+
+    const bulan = Math.floor(diffServis / 30);
+    const hari = diffServis % 30;
+
+    tr.innerHTML = `
+      <td>${k.plat}</td>
+      <td>${k.lokasi}</td>
+      <td>${k.stnk}</td>
+      <td>${k.kir}</td>
+      <td>${statusHari(diffSTNK)}</td>
+      <td>${statusHari(diffKIR)}</td>
+      <td>${k.servis}</td>
+      <td>${bulan} bulan ${hari} hari sejak servis</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+loadUser();
+loadKendaraan();
 </script>
+
 </body>
 </html>
