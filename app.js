@@ -1,7 +1,7 @@
 // =============================
 // PT ANISA JAYA UTAMA - FRONTEND
 // =============================
-const scriptURL = "MASUKKAN_URL_WEBAPP_DISINI"; // dari Google Apps Script
+const scriptURL = "https://script.google.com/macros/s/AKfycbx4_kLI7M7VK5QleIV1EkbP9uItlw2dDqQNalg_PsOmSZ4lr5TITVs-3ZTjiAjqtLov/exec"; // dari Google Apps Script
 
 // === LOGIN ===
 async function login(event) {
