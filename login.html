@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - PT ANISA JAYA UTAMA BY ROY</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+  <div class="login-box">
+    <img src="logo Anything2 tanpa pinggiran.png" alt="Logo" width="100">
+    <h2>PT ANISA JAYA UTAMA<br>BY ROY</h2>
+    <input type="text" id="username" placeholder="Username">
+    <div style="position:relative;">
+      <input type="password" id="password" placeholder="Password">
+      <button type="button" onclick="togglePassword()" style="position:absolute; right:5px; top:5px;">👁</button>
+    </div>
+    <button onclick="login()">Masuk</button>
+    <p id="msg" style="color:red;font-weight:bold;"></p>
+  </div>
+</body>
+</html>
