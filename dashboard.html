@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dashboard - Aplikasi Kendaraan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <div class="navbar card" style="display:flex;align-items:center;justify-content:space-between">
-      <div class="nav-left">
-        <div class="brand">PT ANISA JAYA UTAMA — BY ROY</div>
-      </div>
-      <div class="nav-right">
-        <div class="user-name" style="font-weight:600"></div>
-        <a class="btn" href="kendaraan.html">Kendaraan</a>
-        <a class="btn admin-only" href="user.html">Tambah User/Admin</a>
-        <button class="btn" onclick="logout()">Logout</button>
-      </div>
-    </div>
+  <header>
+    <h2>Dashboard</h2>
+    <nav>
+      <span id="welcome"></span>
+      <button onclick="goTo('kendaraan.html')">Kendaraan</button>
+      <button onclick="goTo('register.html')">Tambah User/Admin</button>
+      <button onclick="logout()">Logout</button>
+    </nav>
+  </header>
 
-    <div class="card" style="margin-top:18px">
-      <div class="header">Dashboard Admin</div>
-      <p style="text-align:center;color:#445">Selamat datang, <span class="user-name"></span></p>
+  <main>
+    <h3>Daftar Kendaraan</h3>
+    <table id="tabelKendaraan">
+      <thead>
+        <tr>
+          <th>Plat Nomor</th>
+          <th>Letak</th>
+          <th>STNK</th>
+          <th>Status STNK</th>
+          <th>KIR</th>
+          <th>Status KIR</th>
+          <th>Servis Terakhir</th>
+          <th>Selisih Servis</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
 
-      <div style="margin-top:8px">
-        <h3>Daftar Semua Kendaraan (read-only)</h3>
-        <div class="card">
-          <table class="table" id="kendaraanTable">
-            <thead>
-              <tr><th>Plat</th><th>Lokasi</th><th>STNK</th><th>Status</th><th>KIR</th><th>Status</th><th>Servis</th><th>Sejak Servis</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  <script src="app.js"></script>
 </body>
 </html>
