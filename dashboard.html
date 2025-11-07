@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - PT ANISA JAYA UTAMA BY ROY</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  background: linear-gradient(120deg, #dfe6e9, #b2bec3);
+}
+header {
+  background-color: #0984e3;
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+header h1 {
+  font-size: 18px;
+}
+nav button {
+  background: transparent;
+  border: none;
+  color: white;
+  margin-left: 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+nav button:hover {
+  text-decoration: underline;
+}
+.container {
+  padding: 20px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+th {
+  background-color: #0984e3;
+  color: white;
+}
+.status {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.hijau { background: #00b894; color: white; }
+.kuning { background: #fdcb6e; color: #2d3436; }
+.merah { background: #d63031; color: white; }
+.btn {
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.btn:hover { background-color: #74b9ff; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🚗 PT ANISA JAYA UTAMA BY ROY</h1>
+  <div>
+    <span id="userWelcome"></span>
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<nav style="background:#74b9ff;padding:10px;text-align:center;">
+  <button onclick="showSection('kendaraan')">Kendaraan</button>
+  <button onclick="showSection('tambahUser')">Tambah User/Admin</button>
+</nav>
+
+<div class="container">
+  <section id="kendaraan" style="display:block;">
+    <h2>Daftar Kendaraan</h2>
+    <table id="tabelKendaraan">
+      <thead>
+        <tr>
+          <th>Plat Nomor</th>
+          <th>Letak Kendaraan</th>
+          <th>Tgl Kadaluwarsa STNK</th>
+          <th>Tgl Kadaluwarsa KIR</th>
+          <th>Tgl Servis</th>
+          <th>Status STNK</th>
+          <th>Status KIR</th>
+          <th>Status Servis</th>
+        </tr>
+      </thead>
+      <tbody id="dataKendaraan"></tbody>
+    </table>
+  </section>
+
+  <section id="tambahUser" style="display:none;">
+    <h2>Tambah User/Admin</h2>
+    <input type="text" id="newUsername" placeholder="Username"><br>
+    <input type="text" id="newNama" placeholder="Nama Lengkap"><br>
+    <select id="newRole">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select><br><br>
+    <button class="btn" onclick="tambahUser()">Simpan</button>
+    <p id="userMsg" style="color:green;font-weight:bold;"></p>
+  </section>
+</div>
+
+<script>
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!loggedInUser) {
+  alert("Silakan login terlebih dahulu!");
+  window.location.href = "index.html";
+}
+document.getElementById("userWelcome").innerText = "Selamat datang, " + loggedInUser.nama;
+
+function logout() {
+  localStorage.removeItem("loggedInUser");
+  window.location.href = "index.html";
+}
+
+function showSection(id) {
+  document.getElementById("kendaraan").style.display = "none";
+  document.getElementById("tambahUser").style.display = "none";
+  document.getElementById(id).style.display = "block";
+}
+
+if (!localStorage.getItem("kendaraan")) {
+  localStorage.setItem("kendaraan", JSON.stringify([]));
+}
+
+function loadKendaraan() {
+  const data = JSON.parse(localStorage.getItem("kendaraan")) || [];
+  const tbody = document.getElementById("dataKendaraan");
+  tbody.innerHTML = "";
+
+  const now = new Date();
+
+  data.forEach(k => {
+    const row = document.createElement("tr");
+
+    const tglStnk = new Date(k.stnk);
+    const tglKir = new Date(k.kir);
+    const tglServis = new Date(k.servis);
+
+    const diffStnk = Math.ceil((tglStnk - now) / (1000*60*60*24));
+    const diffKir = Math.ceil((tglKir - now) / (1000*60*60*24));
+    const diffServis = Math.ceil((tglServis - now) / (1000*60*60*24));
+
+    const statusColor = d => d < 0 ? "merah" : d <= 7 ? "kuning" : "hijau";
+    const statusText = d => d < 0 ? `Terlambat ${Math.abs(d)} hari` : `Sisa ${d} hari`;
+
+    row.innerHTML = `
+      <td>${k.plat}</td>
+      <td>${k.lokasi}</td>
+      <td>${k.stnk}</td>
+      <td>${k.kir}</td>
+      <td>${k.servis}</td>
+      <td><span class="status ${statusColor(diffStnk)}">${statusText(diffStnk)}</span></td>
+      <td><span class="status ${statusColor(diffKir)}">${statusText(diffKir)}</span></td>
+      <td><span class="status ${statusColor(diffServis)}">${statusText(diffServis)}</span></td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function tambahUser() {
+  if (loggedInUser.role !== "admin") {
+    alert("Hanya admin yang dapat menambah user!");
+    return;
+  }
+  const username = document.getElementById("newUsername").value.trim();
+  const nama = document.getElementById("newNama").value.trim();
+  const role = document.getElementById("newRole").value;
+
+  if (!username || !nama) {
+    alert("Semua field wajib diisi!");
+    return;
+  }
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  if (users.find(u => u.username === username)) {
+    alert("Username sudah ada!");
+    return;
+  }
+
+  users.push({ username, password: "12345", role, nama });
+  localStorage.setItem("users", JSON.stringify(users));
+
+  document.getElementById("userMsg").innerText = "User berhasil ditambahkan!";
+  document.getElementById("newUsername").value = "";
+  document.getElementById("newNama").value = "";
+}
+
+loadKendaraan();
+</script>
+</body>
+</html>
