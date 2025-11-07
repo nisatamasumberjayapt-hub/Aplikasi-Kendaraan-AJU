@@ -1,79 +1,68 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #e9f1fc;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #e9f1ff;
   margin: 0;
   padding: 0;
 }
 
-.login-container, .register-container {
-  width: 300px;
-  margin: 10% auto;
-  padding: 20px;
-  background: white;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-input, select, button {
-  width: 90%;
-  margin: 8px 0;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-button {
-  background-color: #0b66c3;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #094a8f;
-}
-
-.password-box {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.password-box button {
-  width: auto;
-  margin-left: 5px;
-  background: #ccc;
-  color: black;
-}
-
 header {
-  background: #0b66c3;
+  background: #0d6efd;
   color: white;
-  padding: 10px;
+  padding: 15px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-table {
+nav button, button {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+}
+
+nav button:hover, button:hover {
+  background: #0b5ed7;
+  transform: scale(1.05);
+}
+
+.login-container, .form-container {
+  max-width: 400px;
+  margin: 60px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+input, select {
   width: 90%;
-  margin: 20px auto;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+table {
+  width: 95%;
+  margin: 30px auto;
   border-collapse: collapse;
   background: white;
 }
 
-table, th, td {
-  border: 1px solid #ccc;
-}
-
 th, td {
-  padding: 8px;
+  padding: 10px;
   text-align: center;
+  border-bottom: 1px solid #ddd;
 }
 
-nav button {
-  margin: 0 5px;
-  background: white;
-  color: #0b66c3;
+th {
+  background: #0d6efd;
+  color: white;
 }
