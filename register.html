@@ -1,37 +1,23 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tambah User/Admin</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Aplikasi Kendaraan AJU</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-<header>Tambah User / Admin</header>
-<nav>
-  <a href="dashboard.html">🏠 Dashboard</a>
-  <a href="kendaraan.html">🚗 Kendaraan</a>
-  <a href="register.html">👤 Tambah User/Admin</a>
-  <a href="#" onclick="logout()">🚪 Logout</a>
-</nav>
-
-<div class="container">
-  <h2>Form Tambah User/Admin</h2>
-  <input type="text" id="newUsername" placeholder="Username">
-  <input type="text" id="nama" placeholder="Nama Lengkap">
-  <select id="role">
-    <option value="user">User</option>
-    <option value="admin">Admin</option>
-  </select>
-  <input type="password" id="newPassword" placeholder="Password">
-  <button onclick="tambahUser()">Simpan User</button>
-  <table id="userTable">
-    <thead>
-      <tr><th>Username</th><th>Nama</th><th>Role</th></tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+  <div class="login-box">
+    <h2>Buat Akun Baru</h2>
+    <input type="text" id="regUsername" placeholder="Username">
+    <input type="password" id="regPassword" placeholder="Password">
+    <select id="regRole">
+      <option value="user">User</option>
+      <option value="admin">Admin</option>
+    </select>
+    <button onclick="register()">Daftar</button>
+    <p>Sudah punya akun? <a href="login.html">Login disini</a></p>
+  </div>
 </body>
 </html>
