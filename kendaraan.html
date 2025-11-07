@@ -1,46 +1,37 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Manajemen Kendaraan</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Kendaraan</title>
   <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <div class="navbar card" style="display:flex;align-items:center;justify-content:space-between">
-      <div class="nav-left"><div class="brand">Kendaraan — PT ANISA JAYA UTAMA</div></div>
-      <div class="nav-right">
-        <div class="user-name"></div>
-        <a class="btn" href="dashboard.html">Dashboard</a>
-        <a class="btn admin-only" href="user.html">Tambah User/Admin</a>
-        <button class="btn" onclick="logout()">Logout</button>
-      </div>
-    </div>
+  <h2>Data Kendaraan</h2>
+  <form id="formKendaraan">
+    <input type="text" id="plat" placeholder="Plat Nomor" required>
+    <input type="text" id="letak" placeholder="Letak Kendaraan" required>
+    <input type="date" id="stnk" required>
+    <input type="date" id="kir" required>
+    <input type="date" id="servis" required>
+    <button type="submit">Simpan</button>
+  </form>
 
-    <div class="card">
-      <div class="header">Form Kendaraan (Tambah / Edit)</div>
+  <table id="tabelKendaraan">
+    <thead>
+      <tr>
+        <th>Plat</th>
+        <th>Letak</th>
+        <th>STNK</th>
+        <th>KIR</th>
+        <th>Servis</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
 
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px">
-        <input id="plat" placeholder="Plat Nomor (UNIK)">
-        <input id="lokasi" placeholder="Letak Kendaraan">
-        <label> Tgl Kadaluarsa STNK: <input id="tglSTNK" type="date"></label>
-        <label> Tgl Kadaluarsa KIR: <input id="tglKIR" type="date"></label>
-        <label> Tgl Servis Terakhir: <input id="tglServis" type="date"></label>
-      </div>
-
-      <div style="margin-top:12px">
-        <button class="btn" onclick="simpanKendaraan()">Simpan</button>
-      </div>
-
-      <div style="margin-top:18px">
-        <div class="search"><input id="search" class="input" placeholder="Cari berdasarkan plat atau lokasi..." /></div>
-        <table class="table" id="kendaraanList">
-          <thead><tr><th>Plat</th><th>Lokasi</th><th>STNK</th><th>STNK status</th><th>KIR</th><th>KIR status</th><th>Servis</th><th>Sejak servis</th><th>Aksi</th></tr></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+  <button onclick="goTo('dashboard.html')">Kembali ke Dashboard</button>
+  <script src="app.js"></script>
 </body>
 </html>
