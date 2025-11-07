@@ -11,7 +11,7 @@
     <h2>Dashboard</h2>
     <nav>
       <button onclick="goTo('kendaraan.html')">Kendaraan</button>
-      <button onclick="goTo('register.html')">Tambah User/Admin</button>
+      <button onclick="goTo('register.html')">Tambah User</button>
       <button onclick="logout()">Logout</button>
     </nav>
   </header>
@@ -35,41 +35,6 @@
     </table>
   </main>
 
-  <!-- Pastikan ini di bawah -->
   <script src="app.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', loadKendaraan);
-
-    function goTo(page) {
-      window.location.href = page;
-    }
-
-    function logout() {
-      localStorage.removeItem('loggedInUser');
-      window.location.href = 'index.html';
-    }
-
-    async function loadKendaraan() {
-      try {
-        const response = await fetch(scriptURL + '?action=getKendaraan');
-        const data = await response.json();
-
-        const tbody = document.querySelector('#tabelKendaraan tbody');
-        tbody.innerHTML = '';
-
-        data.forEach(row => {
-          const tr = document.createElement('tr');
-          row.forEach(cell => {
-            const td = document.createElement('td');
-            td.textContent = cell;
-            tr.appendChild(td);
-          });
-          tbody.appendChild(tr);
-        });
-      } catch (err) {
-        console.error('Gagal memuat kendaraan:', err);
-      }
-    }
-  </script>
 </body>
 </html>
