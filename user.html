@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tambah User/Admin - PT ANISA JAYA UTAMA BY ROY</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(120deg, #dfe6e9, #b2bec3);
+  margin: 0;
+  padding: 0;
+}
+header {
+  background-color: #0984e3;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+.container {
+  background: white;
+  max-width: 600px;
+  margin: 40px auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  padding: 25px;
+}
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 10px 20px;
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+button:hover { background-color: #74b9ff; }
+img {
+  display: block;
+  margin: 10px auto;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #0984e3;
+}
+table {
+  width: 100%;
+  margin-top: 25px;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+th {
+  background-color: #0984e3;
+  color: white;
+}
+.action-btn {
+  cursor: pointer;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+}
+.edit { background: #00cec9; }
+.hapus { background: #d63031; }
+</style>
+</head>
+<body>
+
+<header>👥 Kelola User & Admin</header>
+
+<div class="container">
+  <h2>Form Tambah User/Admin</h2>
+  <input type="text" id="username" placeholder="Username">
+  <input type="text" id="nama" placeholder="Nama Lengkap">
+  <select id="role">
+    <option value="">Pilih Sebagai...</option>
+    <option value="admin">Admin</option>
+    <option value="user">User</option>
+  </select>
+  <label>Foto Profil:</label>
+  <input type="file" id="foto" accept="image/*" onchange="previewFoto()">
+  <img id="preview" src="" alt="Preview Foto" style="display:none;">
+  <input type="password" id="password" placeholder="Password">
+  <button onclick="simpanUser()">💾 Simpan</button>
+  <button onclick="resetForm()">🔄 Reset</button>
+
+  <h3>Daftar User/Admin</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Foto</th>
+        <th>Username</th>
+        <th>Nama</th>
+        <th>Role</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="userTabel"></tbody>
+  </table>
+</div>
+
+<script>
+let editIndex = null;
+
+function previewFoto() {
+  const file = document.getElementById("foto").files[0];
+  const preview = document.getElementById("preview");
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+      preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function loadUser() {
+  const data = JSON.parse(localStorage.getItem("users")) || [];
+  const tbody = document.getElementById("userTabel");
+  tbody.innerHTML = "";
+  
+  data.forEach((u, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td><img src="${u.foto || 'https://via.placeholder.com/80'}" width="50" height="50" style="border-radius:50%;object-fit:cover;"></td>
+      <td>${u.username}</td>
+      <td>${u.nama}</td>
+      <td>${u.role}</td>
+      <td>
+        <button class="action-btn edit" onclick="editUser(${i})">Edit</button>
+        <button class="action-btn hapus" onclick="hapusUser(${i})">Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function simpanUser() {
+  const username = document.getElementById("username").value.trim();
+  const nama = document.getElementById("nama").value.trim();
+  const role = document.getElementById("role").value;
+  const password = document.getElementById("password").value.trim();
+  const preview = document.getElementById("preview").src;
+
+  if (!username || !nama || !role || !password) {
+    alert("Semua kolom wajib diisi!");
+    return;
+  }
+
+  let data = JSON.parse(localStorage.getItem("users")) || [];
+  if (editIndex === null && data.find(u => u.username === username)) {
+    alert("Username sudah digunakan!");
+    return;
+  }
+
+  const userBaru = {
+    username, nama, role, password,
+    foto: preview || ""
+  };
+
+  if (editIndex !== null) {
+    if (!confirm("Yakin ingin mengubah data user ini?")) return;
+    data[editIndex] = userBaru;
+    editIndex = null;
+  } else {
+    data.push(userBaru);
+  }
+
+  localStorage.setItem("users", JSON.stringify(data));
+  alert("Data user berhasil disimpan!");
+  resetForm();
+  loadUser();
+}
+
+function editUser(i) {
+  const data = JSON.parse(localStorage.getItem("users")) || [];
+  const u = data[i];
+  if (!confirm(`Yakin ingin mengedit user ${u.username}?`)) return;
+
+  document.getElementById("username").value = u.username;
+  document.getElementById("nama").value = u.nama;
+  document.getElementById("role").value = u.role;
+  document.getElementById("password").value = u.password;
+  if (u.foto) {
+    document.getElementById("preview").src = u.foto;
+    document.getElementById("preview").style.display = "block";
+  } else {
+    document.getElementById("preview").style.display = "none";
+  }
+  editIndex = i;
+}
+
+function hapusUser(i) {
+  const data = JSON.parse(localStorage.getItem("users")) || [];
+  const u = data[i];
+  if (!confirm(`Yakin ingin menghapus user ${u.username}?`)) return;
+  data.splice(i, 1);
+  localStorage.setItem("users", JSON.stringify(data));
+  loadUser();
+}
+
+function resetForm() {
+  document.getElementById("username").value = "";
+  document.getElementById("nama").value = "";
+  document.getElementById("role").value = "";
+  document.getElementById("password").value = "";
+  document.getElementById("foto").value = "";
+  document.getElementById("preview").style.display = "none";
+  editIndex = null;
+}
+
+loadUser();
+</script>
+
+</body>
+</html>
