@@ -1,46 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tambah User/Admin</title>
-<style>
-  body{font-family:'Segoe UI',sans-serif;background:#f0f3f7;margin:0;padding:0;}
-  header{background:#1976d2;color:white;text-align:center;padding:20px;font-size:1.3em;}
-  .container{max-width:600px;margin:40px auto;background:white;padding:30px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1);}
-  input,select,button{width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #ccc;}
-  button{background:#1976d2;color:white;border:none;font-weight:bold;cursor:pointer;}
-  button:hover{background:#0d47a1;}
-  table{width:100%;border-collapse:collapse;margin-top:20px;}
-  th,td{padding:8px;text-align:center;border-bottom:1px solid #ccc;}
-  th{background:#1976d2;color:white;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halaman User</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>Tambah User/Admin</header>
-<div class="container">
-  <input id="username" placeholder="Username" />
-  <input id="nama" placeholder="Nama Lengkap" />
-  <input id="password" type="password" placeholder="Password" />
-  <select id="role"><option value="user">User</option><option value="admin">Admin</option></select>
-  <button onclick="tambah()">Simpan</button>
-  <table>
-    <thead><tr><th>Username</th><th>Nama</th><th>Role</th></tr></thead>
-    <tbody id="tabel"></tbody>
-  </table>
-</div>
-<script>
-  const tabel=document.getElementById('tabel');
-  let data=JSON.parse(localStorage.getItem('dataUser'))||[];
-  function render(){tabel.innerHTML="";data.forEach(u=>{tabel.innerHTML+=`<tr><td>${u.username}</td><td>${u.nama}</td><td>${u.role}</td></tr>`});}
-  function tambah(){
-    const u={username:username.value.trim(),nama:nama.value.trim(),password:password.value,role:role.value};
-    if(!u.username||!u.password)return alert("Lengkapi semua data!");
-    if(data.some(d=>d.username===u.username))return alert("Username sudah ada!");
-    data.push(u);localStorage.setItem('dataUser',JSON.stringify(data));render();
-    username.value=nama.value=password.value="";
-  }
-  render();
-</script>
+  <div class="container">
+    <h1>Selamat Datang, User!</h1>
+    <p>Ini halaman untuk pengguna biasa.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
