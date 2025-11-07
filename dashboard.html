@@ -5,15 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #eaf2fd;
+      margin: 0;
+    }
+    header {
+      background-color: #0d6efd;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 25px;
+    }
+    header h2 {
+      margin: 0;
+    }
+    nav button {
+      background: white;
+      color: #0d6efd;
+      border: none;
+      padding: 8px 14px;
+      margin-left: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    nav button:hover {
+      background: #cfe2ff;
+    }
+    main {
+      padding: 25px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+    th {
+      background: #0d6efd;
+      color: white;
+    }
+  </style>
 </head>
 <body>
   <header>
     <h2>Dashboard</h2>
     <nav>
       <span id="welcome"></span>
-      <button onclick="goTo('kendaraan.html')">Kendaraan</button>
-      <button onclick="goTo('register.html')">Tambah User/Admin</button>
-      <button onclick="logout()">Logout</button>
+      <button id="kendaraanBtn">Kendaraan</button>
+      <button id="userBtn">Tambah User/Admin</button>
+      <button id="logoutBtn">Logout</button>
     </nav>
   </header>
 
@@ -32,7 +83,7 @@
           <th>Selisih Servis</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="kendaraanTableBody"></tbody>
     </table>
   </main>
 
