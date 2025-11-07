@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Kendaraan - PT ANISA JAYA UTAMA BY ROY</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(120deg, #dfe6e9, #b2bec3);
+  margin: 0;
+  padding: 0;
+}
+header {
+  background-color: #0984e3;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+}
+.container {
+  background: white;
+  max-width: 700px;
+  margin: 40px auto;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  padding: 25px;
+}
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+button {
+  padding: 10px 20px;
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+button:hover { background-color: #74b9ff; }
+table {
+  width: 100%;
+  margin-top: 25px;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+th {
+  background-color: #0984e3;
+  color: white;
+}
+.status {
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+.hijau { background: #00b894; color: white; }
+.kuning { background: #fdcb6e; color: #2d3436; }
+.merah { background: #d63031; color: white; }
+.action-btn {
+  cursor: pointer;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+}
+.edit { background: #00cec9; }
+.hapus { background: #d63031; }
+</style>
+</head>
+<body>
+
+<header>🛠️ Kelola Data Kendaraan</header>
+
+<div class="container">
+  <h2>Form Kendaraan</h2>
+  <input type="text" id="plat" placeholder="Plat Nomor (Harus Unik)">
+  <input type="text" id="lokasi" placeholder="Letak Kendaraan">
+  <label>Tanggal Kadaluarsa STNK:</label>
+  <input type="date" id="stnk">
+  <label>Tanggal Kadaluarsa KIR:</label>
+  <input type="date" id="kir">
+  <label>Tanggal Servis:</label>
+  <input type="date" id="servis">
+  <button onclick="simpanKendaraan()">💾 Simpan</button>
+  <button onclick="resetForm()">🔄 Reset</button>
+  
+  <h3>Daftar Kendaraan</h3>
+  <input type="text" id="cari" placeholder="Cari Plat atau Lokasi..." onkeyup="cariKendaraan()">
+  
+  <table>
+    <thead>
+      <tr>
+        <th>Plat</th>
+        <th>Letak</th>
+        <th>STNK</th>
+        <th>KIR</th>
+        <th>Servis</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="dataTabel"></tbody>
+  </table>
+</div>
+
+<script>
+let editIndex = null;
+
+function loadKendaraan() {
+  const data = JSON.parse(localStorage.getItem("kendaraan")) || [];
+  const tbody = document.getElementById("dataTabel");
+  tbody.innerHTML = "";
+  
+  data.forEach((k, i) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${k.plat}</td>
+      <td>${k.lokasi}</td>
+      <td>${k.stnk}</td>
+      <td>${k.kir}</td>
+      <td>${k.servis}</td>
+      <td>
+        <button class="action-btn edit" onclick="editKendaraan(${i})">Edit</button>
+        <button class="action-btn hapus" onclick="hapusKendaraan(${i})">Hapus</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function simpanKendaraan() {
+  const plat = document.getElementById("plat").value.trim().toUpperCase();
+  const lokasi = document.getElementById("lokasi").value.trim();
+  const stnk = document.getElementById("stnk").value;
+  const kir = document.getElementById("kir").value;
+  const servis = document.getElementById("servis").value;
+
+  if (!plat || !lokasi || !stnk || !kir || !servis) {
+    alert("Semua kolom wajib diisi!");
+    return;
+  }
+
+  let data = JSON.parse(localStorage.getItem("kendaraan")) || [];
+
+  // Cegah duplikasi plat jika sedang tambah baru
+  if (editIndex === null && data.find(k => k.plat === plat)) {
+    alert("Plat nomor sudah ada!");
+    return;
+  }
+
+  const kendaraanBaru = { plat, lokasi, stnk, kir, servis };
+
+  if (editIndex !== null) {
+    if (!confirm("Yakin ingin menyimpan perubahan data ini?")) return;
+    data[editIndex] = kendaraanBaru;
+    editIndex = null;
+  } else {
+    data.push(kendaraanBaru);
+  }
+
+  localStorage.setItem("kendaraan", JSON.stringify(data));
+  alert("Data kendaraan berhasil disimpan!");
+  resetForm();
+  loadKendaraan();
+}
+
+function editKendaraan(i) {
+  const data = JSON.parse(localStorage.getItem("kendaraan")) || [];
+  const k = data[i];
+  if (!confirm(`Yakin ingin mengedit data kendaraan ${k.plat}?`)) return;
+  
+  document.getElementById("plat").value = k.plat;
+  document.getElementById("lokasi").value = k.lokasi;
+  document.getElementById("stnk").value = k.stnk;
+  document.getElementById("kir").value = k.kir;
+  document.getElementById("servis").value = k.servis;
+  editIndex = i;
+}
+
+function hapusKendaraan(i) {
+  const data = JSON.parse(localStorage.getItem("kendaraan")) || [];
+  const k = data[i];
+  if (!confirm(`Yakin ingin menghapus kendaraan ${k.plat}?`)) return;
+
+  data.splice(i, 1);
+  localStorage.setItem("kendaraan", JSON.stringify(data));
+  loadKendaraan();
+}
+
+function cariKendaraan() {
+  const input = document.getElementById("cari").value.toLowerCase();
+  const rows = document.querySelectorAll("#dataTabel tr");
+  rows.forEach(row => {
+    const plat = row.childr
