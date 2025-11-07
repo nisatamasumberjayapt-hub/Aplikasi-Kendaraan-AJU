@@ -1,65 +1,56 @@
-/* ==== STYLES.CSS ==== */
-/* Reset dasar */
-* {
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #cce5ff, #e2eafc);
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-/* Latar belakang umum */
-body {
-  background: linear-gradient(135deg, #1a73e8, #00bcd4);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
-  color: #333;
-}
-
-/* Kartu utama */
-.container {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  padding: 40px;
-  width: 100%;
-  max-width: 480px;
-  transition: all 0.3s ease;
-}
-
-.container:hover {
-  transform: translateY(-5px);
-}
-
-/* Judul halaman */
-h1, h2 {
   text-align: center;
-  color: #1a73e8;
-  margin-bottom: 20px;
 }
 
-/* Form */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.container {
+  margin-top: 100px;
+}
+
+h1, h2, h4 {
+  color: #003366;
+}
+
+.login-box {
+  width: 320px;
+  margin: 100px auto;
+  padding: 30px;
+  background: #ffffffdd;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 10px;
 }
 
 input, select {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 15px;
-  outline: none;
-  transition: border-color 0.3s ease;
+  display: block;
+  width: 90%;
+  padding: 10px;
+  margin: 10px auto;
+  border: 1px solid #999;
+  border-radius: 6px;
 }
 
-input:focus, select:focus {
-  border-color: #1a73e8;
+button, .btn {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-/* Tombol */
-button {
-  background: #1
+button:hover, .btn:hover {
+  background-color: #004d99;
+}
+
+.btn.secondary {
+  background-color: #4CAF50;
+}
+
+.btn.secondary:hover {
+  background-color: #3e8e41;
+}
