@@ -1,59 +1,114 @@
-const scriptURL = "https://script.google.com/macros/s/AKfycbx.../exec"; // ganti dengan URL Web App milikmu
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx4_kLI7M7VK5QleIV1EkbP9uItlw2dDqQNalg_PsOmSZ4lr5TITVs-3ZTjiAjqtLov/exec'; // dari Google Apps Script deployment
 
-// === LOGIN ===
-async function handleLogin(event) {
-  event.preventDefault();
+function goTo(page) {
+  window.location.href = page;
+}
+
+function logout() {
+  localStorage.removeItem('user');
+  window.location.href = 'login.html';
+}
+
+function login() {
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
 
-  const response = await fetch(scriptURL + '?action=loginUser', {
+  fetch(scriptURL, {
     method: 'POST',
-    body: JSON.stringify({ username, password })
+    body: JSON.stringify({ action: 'login', username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      window.location.href = 'dashboard.html';
+    } else {
+      alert('Login gagal');
+    }
   });
-
-  const result = await response.json();
-  if (result.success) {
-    localStorage.setItem('loggedInUser', username);
-    window.location.href = 'dashboard.html';
-  } else {
-    alert('Login gagal. Periksa username dan password.');
-  }
 }
 
-// === REGISTER ===
-async function handleRegister(event) {
-  event.preventDefault();
-  const username = document.getElementById('regUsername').value;
-  const password = document.getElementById('regPassword').value;
-  const role = document.getElementById('regRole').value;
+function tambahUser() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const role = document.getElementById('role').value;
 
-  const response = await fetch(scriptURL + '?action=registerUser', {
+  fetch(scriptURL, {
     method: 'POST',
-    body: JSON.stringify({ username, password, role })
-  });
-
-  const result = await response.json();
-  alert(result.message);
+    body: JSON.stringify({ action: 'addUser', username, password, role })
+  })
+  .then(() => alert('User berhasil ditambah!'));
 }
 
-// === TAMBAH KENDARAAN ===
-async function handleTambahKendaraan(event) {
-  event.preventDefault();
-  const formData = {
-    plat: document.getElementById('plat').value,
+function tambahKendaraan() {
+  const data = {
+    action: 'addKendaraan',
+    platNomor: document.getElementById('platNomor').value,
     letak: document.getElementById('letak').value,
     stnk: document.getElementById('stnk').value,
     statusStnk: document.getElementById('statusStnk').value,
     kir: document.getElementById('kir').value,
     statusKir: document.getElementById('statusKir').value,
-    servis: document.getElementById('servis').value
+    servisTerakhir: document.getElementById('servisTerakhir').value
   };
 
-  const response = await fetch(scriptURL + '?action=tambahKendaraan', {
-    method: 'POST',
-    body: JSON.stringify(formData)
-  });
+  fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
+  .then(() => alert('Kendaraan disimpan!'));
+}
+const scriptURL = 'https://script.google.com/macros/s/AKfycbx4_kLI7M7VK5QleIV1EkbP9uItlw2dDqQNalg_PsOmSZ4lr5TITVs-3ZTjiAjqtLov/exec'; // dari Google Apps Script deployment
 
-  const result = await response.json();
-  alert(result.message);
+function goTo(page) {
+  window.location.href = page;
+}
+
+function logout() {
+  localStorage.removeItem('user');
+  window.location.href = 'login.html';
+}
+
+function login() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'login', username, password })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      localStorage.setItem('user', JSON.stringify(data.user));
+      window.location.href = 'dashboard.html';
+    } else {
+      alert('Login gagal');
+    }
+  });
+}
+
+function tambahUser() {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const role = document.getElementById('role').value;
+
+  fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'addUser', username, password, role })
+  })
+  .then(() => alert('User berhasil ditambah!'));
+}
+
+function tambahKendaraan() {
+  const data = {
+    action: 'addKendaraan',
+    platNomor: document.getElementById('platNomor').value,
+    letak: document.getElementById('letak').value,
+    stnk: document.getElementById('stnk').value,
+    statusStnk: document.getElementById('statusStnk').value,
+    kir: document.getElementById('kir').value,
+    statusKir: document.getElementById('statusKir').value,
+    servisTerakhir: document.getElementById('servisTerakhir').value
+  };
+
+  fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
+  .then(() => alert('Kendaraan disimpan!'));
 }
