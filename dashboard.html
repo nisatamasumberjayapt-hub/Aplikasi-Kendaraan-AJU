@@ -1,37 +1,19 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>Selamat datang di PT ANISA JAYA UTAMA BY ROY</header>
-<nav>
-  <a href="dashboard.html">🏠 Dashboard</a>
-  <a href="kendaraan.html">🚗 Kendaraan</a>
-  <a href="register.html" id="adminOnly">👤 Tambah User/Admin</a>
-  <a href="#" onclick="logout()">🚪 Logout</a>
-</nav>
-<div class="container" id="main-content">
-  <h2>Daftar Kendaraan</h2>
-  <table id="kendaraanTable">
-    <thead>
-      <tr>
-        <th>Plat Nomor</th>
-        <th>Letak Kendaraan</th>
-        <th>Kadaluarsa STNK</th>
-        <th>Status STNK</th>
-        <th>Kadaluarsa KIR</th>
-        <th>Status KIR</th>
-        <th>Tanggal Servis</th>
-        <th>Sudah Servis</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+  <div class="container">
+    <h1>Dashboard Admin</h1>
+    <p>Selamat datang, Admin!</p>
+    <a href="kendaraan.html" class="btn">Data Kendaraan</a>
+    <a href="user.html" class="btn">Data User</a>
+    <button onclick="logout()">Logout</button>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
