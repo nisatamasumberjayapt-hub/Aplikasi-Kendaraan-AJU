@@ -1,70 +1,37 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-  <style>
-    body {font-family:'Segoe UI',sans-serif;background:#f0f3f7;margin:0;}
-    header {background:#1565c0;color:white;padding:20px;text-align:center;font-size:1.3em;}
-    nav {display:flex;justify-content:center;background:white;box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-    nav a {text-decoration:none;color:#1565c0;font-weight:600;padding:15px 30px;}
-    nav a:hover {background:#1565c0;color:white;border-radius:6px;}
-    .container {max-width:1100px;margin:40px auto;background:white;padding:30px;border-radius:10px;box-shadow:0 3px 10px rgba(0,0,0,0.1);}
-    table {width:100%;border-collapse:collapse;}
-    th,td {padding:10px;text-align:center;border-bottom:1px solid #ddd;}
-    th {background:#1565c0;color:white;}
-    .status {font-weight:bold;padding:5px 8px;border-radius:5px;color:white;}
-    .aman{background:#2e7d32;} .waspada{background:#fbc02d;color:black;} .bahaya{background:#c62828;}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
 </head>
 <body>
-  <header>Selamat Datang, <span id="nama"></span></header>
-  <nav>
-    <a href="kendaraan.html">Kendaraan</a>
-    <a href="user.html" id="adminMenu">Tambah User/Admin</a>
-  </nav>
-
-  <div class="container">
-    <h2>Daftar Kendaraan</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Plat</th><th>Lokasi</th><th>STNK</th><th>Status</th>
-          <th>KIR</th><th>Status</th><th>Servis</th><th>Keterangan</th>
-        </tr>
-      </thead>
-      <tbody id="tabel"></tbody>
-    </table>
-  </div>
-
-  <script>
-    const nama = localStorage.getItem('loginNama') || "Pengguna";
-    const role = localStorage.getItem('loginRole') || "user";
-    document.getElementById('nama').textContent = nama;
-    if (role !== 'admin') document.getElementById('adminMenu').style.display = 'none';
-
-    function statusTanggal(tgl) {
-      const now = new Date(), t = new Date(tgl);
-      const diff = (t - now) / (1000*60*60*24);
-      if (diff < 0) return '<span class="status bahaya">Terlewat</span>';
-      if (diff <= 7) return `<span class="status waspada">-${Math.ceil(diff)} hari</span>`;
-      return `<span class="status aman">Aman</span>`;
-    }
-
-    const data = JSON.parse(localStorage.getItem('dataKendaraan')) || [];
-    const tabel = document.getElementById('tabel');
-    data.forEach(k => {
-      const s = new Date(k.servis);
-      const diff = Math.floor((new Date()-s)/(1000*60*60*24));
-      const b = Math.floor(diff/30), h = diff%30;
-      tabel.innerHTML += `<tr>
-        <td>${k.plat}</td><td>${k.lokasi}</td>
-        <td>${k.stnk}</td><td>${statusTanggal(k.stnk)}</td>
-        <td>${k.kir}</td><td>${statusTanggal(k.kir)}</td>
-        <td>${k.servis}</td><td>${b} bulan ${h} hari</td>
-      </tr>`;
-    });
-  </script>
+<header>Selamat datang di PT ANISA JAYA UTAMA BY ROY</header>
+<nav>
+  <a href="dashboard.html">🏠 Dashboard</a>
+  <a href="kendaraan.html">🚗 Kendaraan</a>
+  <a href="register.html" id="adminOnly">👤 Tambah User/Admin</a>
+  <a href="#" onclick="logout()">🚪 Logout</a>
+</nav>
+<div class="container" id="main-content">
+  <h2>Daftar Kendaraan</h2>
+  <table id="kendaraanTable">
+    <thead>
+      <tr>
+        <th>Plat Nomor</th>
+        <th>Letak Kendaraan</th>
+        <th>Kadaluarsa STNK</th>
+        <th>Status STNK</th>
+        <th>Kadaluarsa KIR</th>
+        <th>Status KIR</th>
+        <th>Tanggal Servis</th>
+        <th>Sudah Servis</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</div>
 </body>
 </html>
