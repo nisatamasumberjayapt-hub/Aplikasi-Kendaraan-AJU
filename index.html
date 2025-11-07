@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - PT ANISA JAYA UTAMA BY ROY</title>
+<style>
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(120deg, #dfe6e9, #74b9ff);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.login-container {
+  background: white;
+  width: 350px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 30px;
+  text-align: center;
+}
+h2 {
+  margin-bottom: 20px;
+  color: #2d3436;
+}
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #b2bec3;
+}
+button {
+  background-color: #0984e3;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+button:hover {
+  background-color: #74b9ff;
+}
+.toggle {
+  position: absolute;
+  right: 35px;
+  margin-top: -35px;
+  cursor: pointer;
+  color: gray;
+}
+.logo-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #2d3436;
+  margin-bottom: 10px;
+}
+</style>
+</head>
+<body>
+<div class="login-container">
+  <div class="logo-title">PT ANISA JAYA UTAMA<br>BY ROY</div>
+  <h2>Login Aplikasi</h2>
+  <input type="text" id="username" placeholder="Username">
+  <div style="position:relative;">
+    <input type="password" id="password" placeholder="Password">
+    <span class="toggle" onclick="togglePassword()">👁️</span>
+  </div>
+  <button onclick="login()">Masuk</button>
+  <p id="msg" style="color:red;font-weight:bold;"></p>
+</div>
+
+<script>
+let attempts = 0;
+if (!localStorage.getItem("users")) {
+  const defaultUsers = [
+    { username: "admin", password: "12345", role: "admin", nama: "Admin Utama" },
+    { username: "user", password: "12345", role: "user", nama: "User Biasa" }
+  ];
+  localStorage.setItem("users", JSON.stringify(defaultUsers));
+}
+
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const msg = document.getElementById("msg");
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    localStorage.setItem("loggedInUser", JSON.stringify(user));
+    alert(`Selamat datang, ${user.nama}!`);
+    window.location.href = "dashboard.html";
+  } else {
+    attempts++;
+    msg.innerText = `Username atau password salah! Percobaan ke-${attempts}`;
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+    if (attempts >= 3) {
+      alert("Terlalu banyak percobaan salah. Aplikasi ditutup.");
+      document.body.innerHTML = "<h1 style='text-align:center;color:red;'>Akses ditolak!</h1>";
+    }
+  }
+}
+</script>
+</body>
+</html>
