@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Halaman User</title>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Manajemen User</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
   <div class="container">
-    <h1>Selamat Datang, User!</h1>
-    <p>Ini halaman untuk pengguna biasa.</p>
-    <button onclick="logout()">Logout</button>
+    <div class="navbar card" style="display:flex;align-items:center;justify-content:space-between">
+      <div class="nav-left"><div class="brand">User Management</div></div>
+      <div class="nav-right">
+        <div class="user-name"></div>
+        <a class="btn" href="dashboard.html">Dashboard</a>
+        <a class="btn" href="kendaraan.html">Kendaraan</a>
+        <button class="btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="header">Tambah User / Admin</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px">
+        <input id="newUsername" placeholder="Username">
+        <input id="namaUser" placeholder="Nama Lengkap">
+        <input id="passwordUser" placeholder="Password" type="password">
+        <select id="roleUser"><option value="user">User</option><option value="admin">Admin</option></select>
+      </div>
+      <div style="margin-top:12px"><button class="btn" onclick="tambahUserAdmin()">Simpan User</button></div>
+
+      <div style="margin-top:18px">
+        <h3>Daftar User</h3>
+        <table class="table" id="userTable"><thead><tr><th>Username</th><th>Nama</th><th>Role</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
   </div>
-  <script src="app.js"></script>
 </body>
 </html>
