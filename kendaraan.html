@@ -1,51 +1,17 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kendaraan</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Kendaraan</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<header>Manajemen Kendaraan - PT ANISA JAYA UTAMA BY ROY</header>
-<nav>
-  <a href="dashboard.html">🏠 Dashboard</a>
-  <a href="kendaraan.html">🚗 Kendaraan</a>
-  <a href="register.html" id="adminOnly">👤 Tambah User/Admin</a>
-  <a href="#" onclick="logout()">🚪 Logout</a>
-</nav>
-
-<div class="container">
-  <h2>Form Kendaraan</h2>
-  <input type="text" id="plat" placeholder="Plat Nomor">
-  <input type="text" id="lokasi" placeholder="Letak Kendaraan">
-  <label>Tanggal Kadaluarsa STNK:</label>
-  <input type="date" id="tglSTNK">
-  <label>Tanggal Kadaluarsa KIR:</label>
-  <input type="date" id="tglKIR">
-  <label>Tanggal Servis Terakhir:</label>
-  <input type="date" id="tglServis">
-  <button onclick="simpanKendaraan()">Simpan</button>
-
-  <h3>Daftar Kendaraan</h3>
-  <input type="text" id="search" placeholder="Cari plat atau lokasi..." oninput="cariKendaraan()">
-  <table id="kendaraanList">
-    <thead>
-      <tr>
-        <th>Plat Nomor</th>
-        <th>Letak</th>
-        <th>STNK</th>
-        <th>Status STNK</th>
-        <th>KIR</th>
-        <th>Status KIR</th>
-        <th>Servis</th>
-        <th>Sudah Servis</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</div>
+  <div class="container">
+    <h1>Data Kendaraan</h1>
+    <p>Halaman untuk melihat dan mengelola kendaraan.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
