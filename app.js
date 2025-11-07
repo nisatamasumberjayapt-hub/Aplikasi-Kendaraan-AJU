@@ -1,86 +1,97 @@
-const API_URL = "YOUR_WEBAPP_URL";
+// =============================
+// PT ANISA JAYA UTAMA - FRONTEND
+// =============================
+const scriptURL = "MASUKKAN_URL_WEBAPP_DISINI"; // dari Google Apps Script
 
-// ================= LOGIN =================
-async function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+// === LOGIN ===
+async function login(event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "login", data: { username, password } }),
+  const res = await fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'login', username, password }),
   });
   const result = await res.json();
 
   if (result.success) {
-    localStorage.setItem("user", JSON.stringify(result));
-    window.location.href = "index.html";
+    localStorage.setItem('loggedIn', 'true');
+    localStorage.setItem('role', result.role);
+    alert('Login berhasil!');
+    window.location.href = 'dashboard.html';
   } else {
     alert(result.message);
   }
 }
 
-// ================= KENDARAAN =================
+// === REGISTER ===
+async function register(event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  const res = await fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'register', username, password, role: 'user' }),
+  });
+  const result = await res.json();
+
+  alert(result.message);
+  if (result.success) window.location.href = 'login.html';
+}
+
+// === SIMPAN KENDARAAN ===
+async function tambahKendaraan(event) {
+  event.preventDefault();
+  const data = {
+    action: 'saveKendaraan',
+    plat_nomor: document.getElementById('plat').value,
+    letak: document.getElementById('letak').value,
+    stnk: document.getElementById('stnk').value,
+    status_stnk: document.getElementById('status_stnk').value,
+    kir: document.getElementById('kir').value,
+    status_kir: document.getElementById('status_kir').value,
+    servis_terakhir: document.getElementById('servis_terakhir').value,
+    selisih_servis: document.getElementById('selisih_servis').value
+  };
+
+  const res = await fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+  const result = await res.json();
+
+  alert(result.message);
+}
+
+// === AMBIL DATA KENDARAAN ===
 async function loadKendaraan() {
-  const res = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "getKendaraan" }),
+  const res = await fetch(scriptURL, {
+    method: 'POST',
+    body: JSON.stringify({ action: 'getKendaraan' }),
   });
-  const result = await res.json();
+  const data = await res.json();
+  const tbody = document.querySelector('#tabelKendaraan tbody');
+  tbody.innerHTML = '';
 
-  const tbody = document.querySelector("#tabelKendaraan tbody");
-  tbody.innerHTML = "";
-  result.forEach(r => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${r.Plat}</td>
-      <td>${r.Letak}</td>
-      <td>${r.STNK}</td>
-      <td>${r["Status STNK"]}</td>
-      <td>${r.KIR}</td>
-      <td>${r["Status KIR"]}</td>
-      <td>${r["Servis Terakhir"]}</td>
-      <td>${r["Selisih Servis"]}</td>
-    `;
-    tbody.appendChild(tr);
+  data.forEach(item => {
+    const row = `<tr>
+      <td>${item.plat_nomor}</td>
+      <td>${item.letak}</td>
+      <td>${item.stnk}</td>
+      <td>${item.status_stnk}</td>
+      <td>${item.kir}</td>
+      <td>${item.status_kir}</td>
+      <td>${item.servis_terakhir}</td>
+      <td>${item.selisih_servis}</td>
+    </tr>`;
+    tbody.insertAdjacentHTML('beforeend', row);
   });
 }
 
-async function tambahKendaraan() {
-  const data = {
-    Plat: document.getElementById("plat").value,
-    Letak: document.getElementById("letak").value,
-    STNK: document.getElementById("stnk").value,
-    "Status STNK": document.getElementById("statusStnk").value,
-    KIR: document.getElementById("kir").value,
-    "Status KIR": document.getElementById("statusKir").value,
-    "Servis Terakhir": document.getElementById("servis").value,
-    "Selisih Servis": document.getElementById("selisih").value,
-  };
-
-  const res = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "addKendaraan", data }),
-  });
-
-  const result = await res.json();
-  alert(result.message);
-  loadKendaraan();
-}
-
-// ================= USER =================
-async function tambahUser() {
-  const data = {
-    Username: document.getElementById("username").value,
-    Password: document.getElementById("password").value,
-    Nama: document.getElementById("nama").value,
-    Role: document.getElementById("role").value,
-  };
-
-  const res = await fetch(API_URL, {
-    method: "POST",
-    body: JSON.stringify({ action: "addUser", data }),
-  });
-
-  const result = await res.json();
-  alert(result.message);
+// === LOGOUT ===
+function logout() {
+  localStorage.clear();
+  window.location.href = 'login.html';
 }
