@@ -1,4 +1,4 @@
-// URL Web App kamu (sudah aktif)
+// Ganti URL di bawah ini dengan URL Web App kamu yang baru
 const scriptURL = "https://script.google.com/macros/s/AKfycbw3nbLRitPMoc4cgLTLRfONspfv2aMQR1LVJ7lPOCSCinHRHgLUj57VoGZvQCdCBxxG/exec";
 
 async function login() {
@@ -13,23 +13,20 @@ async function login() {
   try {
     const response = await fetch(scriptURL, {
       method: "POST",
-      mode: "cors",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username, password })
     });
 
-    if (!response.ok) throw new Error("Gagal menghubungi server");
-
     const result = await response.json();
 
     if (result.success) {
-      alert("Login berhasil!");
+      alert("Login berhasil! Selamat datang " + result.namalengkap);
       localStorage.setItem("user", JSON.stringify(result));
       window.location.href = "dashboard.html";
     } else {
       alert(result.message);
     }
   } catch (err) {
-    alert("Terjadi kesalahan: " + err.message);
+    alert("Gagal terhubung ke server: " + err.message);
   }
 }
