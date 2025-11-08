@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbwsDMvJGPUTbqhqhJNgsXNHSgEh6AxMzZXdRFtSBrRUKHiPMG86Gi1xn3G345Z7oJ6g/exec'; 
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzsQf0zEQaUInQJzaJv_GwCpiyMPURh1htbVE6ZITMtmAbz8NaTy_RQjbImAYJmpM59/exec'; 
 // Ganti sesuai URL WebApp kamu
 
 // Navigasi antar halaman
