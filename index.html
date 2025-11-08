@@ -1,29 +1,18 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Aplikasi Kendaraan</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aplikasi Kendaraan</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <h2>Login Aplikasi Kendaraan</h2>
-    <form id="loginForm">
-      <label>Username</label>
-      <input type="text" id="username" required>
-
-      <label>Password</label>
-      <input type="password" id="password" required>
-
-      <button type="submit">Login</button>
-      <p>Belum punya akun? <a href="register.html">Daftar di sini</a></p>
-    </form>
+    <img src="logo Anything2 tanpa pinggiran.jpg" alt="Logo" class="logo" />
+    <h1>Selamat Datang di Aplikasi Kendaraan</h1>
+    <p>Silakan login untuk melanjutkan ke sistem</p>
+    <button onclick="window.location.href='login.html'">Login</button>
+    <button onclick="window.location.href='register.html'" class="secondary">Daftar</button>
   </div>
-
-  <script src="app.js"></script>
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", loginUser);
-  </script>
 </body>
 </html>
