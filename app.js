@@ -1,6 +1,5 @@
 // === KONFIGURASI URL GOOGLE APPS SCRIPT ===
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-eGPw8xnz6I44usEMBzT0-crw4iLnbt0tmiYlFcbqyadnpms35DYn73iieMSBx1ed/exec"; // Ganti dengan URL Web App kamu
-
+const API_URL = "https://script.google.com/macros/s/AKfycbx-eGPw8xnz6I44usEMBzT0-crw4iLnbt0tmiYlFcbqyadnpms35DYn73iieMSBx1ed/exec"; 
 
 // === LOGIN ===
 async function login() {
@@ -26,7 +25,6 @@ async function login() {
     const result = await res.json();
 
     if (result.success) {
-      // simpan user ke localStorage
       localStorage.setItem("user", JSON.stringify(result.user));
       alert("Login berhasil!");
       window.location.href = "dashboard.html";
@@ -35,6 +33,7 @@ async function login() {
     }
   } catch (err) {
     alert("Gagal terhubung ke server!");
+    console.error(err);
   }
 }
 
@@ -62,6 +61,7 @@ async function register() {
     }
   } catch (err) {
     alert("Gagal terhubung ke server!");
+    console.error(err);
   }
 }
 
@@ -95,6 +95,7 @@ async function loadKendaraan() {
     }
   } catch (err) {
     alert("Gagal menghubungi server!");
+    console.error(err);
   }
 }
 
