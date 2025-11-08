@@ -1,60 +1,33 @@
-// === URL Web App dari Google Apps Script ===
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw3nbLRitPMoc4cgLTLRfONspfv2aMQR1LVJ7lPOCSCinHRHgLUj57VoGZvQCdCBxxG/exec";
+// URL Web App kamu (sudah aktif)
+const scriptURL = "https://script.google.com/macros/s/AKfycbw3nbLRitPMoc4cgLTLRfONspfv2aMQR1LVJ7lPOCSCinHRHgLUj57VoGZvQCdCBxxG/exec";
 
-// === LOGIN ===
-async function loginUser(event) {
-  event.preventDefault();
-
+async function login() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
-  const data = { action: "login", username, password };
+  if (!username || !password) {
+    alert("Isi username dan password dulu!");
+    return;
+  }
 
   try {
-    const res = await fetch(SCRIPT_URL, {
+    const response = await fetch(scriptURL, {
       method: "POST",
-      body: JSON.stringify(data),
+      mode: "cors",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password })
     });
 
-    const result = await res.json();
+    if (!response.ok) throw new Error("Gagal menghubungi server");
 
-    if (result.result === "success") {
-      localStorage.setItem("user", JSON.stringify(result.user));
+    const result = await response.json();
+
+    if (result.success) {
       alert("Login berhasil!");
+      localStorage.setItem("user", JSON.stringify(result));
       window.location.href = "dashboard.html";
     } else {
-      alert("Login gagal: " + result.message);
-    }
-  } catch (err) {
-    alert("Terjadi kesalahan: " + err.message);
-  }
-}
-
-// === REGISTER ===
-async function registerUser(event) {
-  event.preventDefault();
-
-  const username = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const namalengkap = document.getElementById("namalengkap").value.trim();
-
-  const data = { action: "register", username, password, role: "user", namalengkap };
-
-  try {
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const result = await res.json();
-
-    if (result.result === "success") {
-      alert("Registrasi berhasil! Silakan login.");
-      window.location.href = "index.html";
-    } else {
-      alert("Gagal registrasi: " + result.message);
+      alert(result.message);
     }
   } catch (err) {
     alert("Terjadi kesalahan: " + err.message);
