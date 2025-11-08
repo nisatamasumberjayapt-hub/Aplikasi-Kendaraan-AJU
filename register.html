@@ -3,25 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah User</title>
+  <title>Register - Aplikasi Kendaraan</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h2>Tambah User/Admin</h2>
-    <button onclick="goTo('dashboard.html')">Kembali</button>
-  </header>
+  <div class="container">
+    <h2>Registrasi Akun</h2>
+    <form id="registerForm">
+      <label>Nama Lengkap</label>
+      <input type="text" id="namalengkap" required>
 
-  <main class="form-container">
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <select id="role">
-      <option value="user">User</option>
-      <option value="admin">Admin</option>
-    </select>
-    <button onclick="tambahUser()">Simpan</button>
-  </main>
+      <label>Username</label>
+      <input type="text" id="username" required>
+
+      <label>Password</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Daftar</button>
+      <p>Sudah punya akun? <a href="index.html">Login</a></p>
+    </form>
+  </div>
 
   <script src="app.js"></script>
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", registerUser);
+  </script>
 </body>
 </html>
