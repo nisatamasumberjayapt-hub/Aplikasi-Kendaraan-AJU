@@ -3,26 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Kendaraan</title>
+  <title>Tambah Data Kendaraan</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <header>
+  <div class="container">
     <h2>Tambah Data Kendaraan</h2>
-    <button onclick="goTo('dashboard.html')">Kembali</button>
-  </header>
-
-  <main class="form-container">
-    <input type="text" id="platNomor" placeholder="Plat Nomor">
-    <input type="text" id="letak" placeholder="Letak">
-    <input type="text" id="stnk" placeholder="STNK">
-    <input type="text" id="statusStnk" placeholder="Status STNK">
-    <input type="text" id="kir" placeholder="KIR">
-    <input type="text" id="statusKir" placeholder="Status KIR">
-    <input type="date" id="servisTerakhir">
+    <input id="plat" placeholder="Plat Nomor">
+    <input id="letak" placeholder="Letak">
+    <input id="stnk" placeholder="STNK">
+    <input id="statusStnk" placeholder="Status STNK">
+    <input id="kir" placeholder="KIR">
+    <input id="statusKir" placeholder="Status KIR">
+    <input id="servis" placeholder="Servis Terakhir">
     <button onclick="tambahKendaraan()">Simpan</button>
-  </main>
+    <button onclick="window.location.href='dashboard.html'" class="secondary">Kembali</button>
+  </div>
+  <script>
+    async function tambahKendaraan() {
+      const PlatNomor = document.getElementById("plat").value;
+      const Letak = document.getElementById("letak").value;
+      const STNK = document.getElementById("stnk").value;
+      const StatusSTNK = document.getElementById("statusStnk").value;
+      const KIR = document.getElementById("kir").value;
+      const StatusKIR = document.getElementById("statusKir").value;
+      const ServisTerakhir = document.getElementById("servis").value;
 
-  <script src="app.js"></script>
+      const res = await fetch("https://script.google.com/macros/s/AKfycbw3nbLRitPMoc4cgLTLRfONspfv2aMQR1LVJ7lPOCSCinHRHgLUj57VoGZvQCdCBxxG/exec", {
+        method: "POST",
+        body: JSON.stringify({
+          action: "addKendaraan",
+          PlatNomor, Letak, STNK, StatusSTNK, KIR, StatusKIR, ServisTerakhir
+        }),
+      });
+      const result = await res.json();
+      alert(result.message);
+      if (result.success) window.location.href = "dashboard.html";
+    }
+  </script>
 </body>
 </html>
