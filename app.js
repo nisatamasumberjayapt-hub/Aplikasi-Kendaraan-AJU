@@ -1,32 +1,34 @@
-// Ganti URL di bawah ini dengan URL Web App kamu yang baru
-const scriptURL = "https://script.google.com/macros/s/AKfycbw3nbLRitPMoc4cgLTLRfONspfv2aMQR1LVJ7lPOCSCinHRHgLUj57VoGZvQCdCBxxG/exec";
-
 async function login() {
   const username = document.getElementById("username").value.trim();
   const password = document.getElementById("password").value.trim();
 
   if (!username || !password) {
-    alert("Isi username dan password dulu!");
+    alert("Harap isi username dan password!");
     return;
   }
 
+  const url = "https://script.google.com/macros/s/AKfycbw3nbLRitPMoc4cgLTLRfONspfv2aMQR1LVJ7lPOCSCinHRHgLUj57VoGZvQCdCBxxG/exec";
+
   try {
-    const response = await fetch(scriptURL, {
+    const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({
+        action: "login",
+        username: username,
+        password: password,
+      }),
     });
 
     const result = await response.json();
 
-    if (result.success) {
-      alert("Login berhasil! Selamat datang " + result.namalengkap);
-      localStorage.setItem("user", JSON.stringify(result));
-      window.location.href = "dashboard.html";
+    if (result.status === "success") {
+      alert("Login berhasil!");
+      window.location.href = "index.html"; // halaman utama
     } else {
-      alert(result.message);
+      alert("Username atau password salah!");
     }
-  } catch (err) {
-    alert("Gagal terhubung ke server: " + err.message);
+  } catch (error) {
+    alert("Terjadi kesalahan koneksi: " + error.message);
   }
 }
