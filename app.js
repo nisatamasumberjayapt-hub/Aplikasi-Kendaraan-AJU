@@ -1,8 +1,8 @@
-// === KONFIGURASI API ===
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzsQf0zEQaUInQJzaJv_GwCpiyMPURh1htbVE6ZITMtmAbz8NaTy_RQjbImAYJmpM59/exec'; 
-// Ganti sesuai URL WebApp kamu (sudah benar)
+// === KONFIGURASI ===
+const scriptURL = 'https://script.google.com/macros/s/AKfycbz6ZM9TIAmAn_GxzJQFZZesJFpd0BULrzgyY-vM-yDDQnFj9liIughEyQxTcEM31mHe/exec'; 
+// Ganti dengan URL Web App kamu (ini sudah benar)
 
-// === NAVIGASI ANTAR HALAMAN ===
+// === NAVIGASI ===
 function goTo(page) {
   window.location.href = page;
 }
@@ -19,31 +19,28 @@ function login() {
   const password = document.getElementById('password').value.trim();
 
   if (!username || !password) {
-    alert('Isi username dan password!');
+    alert('Isi username dan password terlebih dahulu!');
     return;
   }
 
   fetch(scriptURL, {
     method: 'POST',
-    mode: 'cors', // penting untuk koneksi dari GitHub Pages ke Apps Script
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'login', username, password })
   })
-  .then(res => {
-    if (!res.ok) throw new Error('Server tidak merespon');
-    return res.json();
-  })
+  .then(response => response.json())
   .then(data => {
     if (data.success) {
       localStorage.setItem('user', JSON.stringify(data.user));
+      alert('Login berhasil!');
       window.location.href = 'dashboard.html';
     } else {
-      alert(data.message || 'Login gagal');
+      alert(data.message || 'Username atau password salah!');
     }
   })
-  .catch(err => {
-    console.error('Error saat login:', err);
-    alert('Gagal terhubung ke server. Pastikan Apps Script di-deploy sebagai WebApp (akses: Siapa pun).');
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Gagal terhubung ke server. Pastikan Google Script kamu aktif.');
   });
 }
 
@@ -60,51 +57,91 @@ function tambahUser() {
 
   fetch(scriptURL, {
     method: 'POST',
-    mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action: 'addUser', username, password, role })
+    body: JSON.stringify({
+      action: 'addUser',
+      username,
+      password,
+      role
+    })
   })
-  .then(res => {
-    if (!res.ok) throw new Error('Server error');
-    return res.json();
-  })
-  .then(data => {
-    alert(data.message || 'User berhasil ditambah!');
+  .then(res => res.json())
+  .then(result => {
+    alert(result.message || 'User berhasil ditambahkan!');
   })
   .catch(err => {
-    console.error('Error tambah user:', err);
-    alert('Gagal menambah user');
+    console.error('Error:', err);
+    alert('Gagal menambah user!');
   });
 }
 
-// === TAMBAH KENDARAAN ===
+// === TAMBAH DATA KENDARAAN ===
 function tambahKendaraan() {
-  const data = {
-    action: 'addKendaraan',
-    platNomor: document.getElementById('platNomor').value.trim(),
-    letak: document.getElementById('letak').value.trim(),
-    stnk: document.getElementById('stnk').value.trim(),
-    statusStnk: document.getElementById('statusStnk').value.trim(),
-    kir: document.getElementById('kir').value.trim(),
-    statusKir: document.getElementById('statusKir').value.trim(),
-    servisTerakhir: document.getElementById('servisTerakhir').value.trim()
-  };
+  const platNomor = document.getElementById('platNomor').value.trim();
+  const letak = document.getElementById('letak').value.trim();
+  const stnk = document.getElementById('stnk').value.trim();
+  const statusStnk = document.getElementById('statusStnk').value.trim();
+  const kir = document.getElementById('kir').value.trim();
+  const statusKir = document.getElementById('statusKir').value.trim();
+  const servisTerakhir = document.getElementById('servisTerakhir').value.trim();
+
+  if (!platNomor || !letak) {
+    alert('Plat Nomor dan Letak wajib diisi!');
+    return;
+  }
 
   fetch(scriptURL, {
     method: 'POST',
-    mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify({
+      action: 'addKendaraan',
+      platNomor,
+      letak,
+      stnk,
+      statusStnk,
+      kir,
+      statusKir,
+      servisTerakhir
+    })
   })
-  .then(res => {
-    if (!res.ok) throw new Error('Server error');
-    return res.json();
-  })
+  .then(res => res.json())
   .then(result => {
     alert(result.message || 'Data kendaraan berhasil disimpan!');
   })
   .catch(err => {
-    console.error('Error tambah kendaraan:', err);
-    alert('Gagal menyimpan kendaraan');
+    console.error('Error:', err);
+    alert('Gagal menyimpan data kendaraan!');
+  });
+}
+
+// === AMBIL DATA KENDARAAN ===
+function getKendaraan() {
+  fetch(scriptURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'getKendaraan' })
+  })
+  .then(res => res.json())
+  .then(result => {
+    if (result.success && result.data) {
+      const tbody = document.querySelector('#dataKendaraan tbody');
+      tbody.innerHTML = '';
+
+      result.data.forEach(row => {
+        const tr = document.createElement('tr');
+        row.forEach(cell => {
+          const td = document.createElement('td');
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+    } else {
+      alert('Gagal memuat data kendaraan');
+    }
+  })
+  .catch(err => {
+    console.error('Error:', err);
+    alert('Gagal terhubung ke server!');
   });
 }
