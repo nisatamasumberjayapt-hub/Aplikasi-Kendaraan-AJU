@@ -55,7 +55,7 @@ function tambahKendaraan() {
   fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
   .then(() => alert('Kendaraan disimpan!'));
 }
-const scriptURL = 'https://script.google.com/macros/s/AKfycbx4_kLI7M7VK5QleIV1EkbP9uItlw2dDqQNalg_PsOmSZ4lr5TITVs-3ZTjiAjqtLov/exec'; // dari Google Apps Script deployment
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwsDMvJGPUTbqhqhJNgsXNHSgEh6AxMzZXdRFtSBrRUKHiPMG86Gi1xn3G345Z7oJ6g/exec'; // dari Google Apps Script deployment
 
 function goTo(page) {
   window.location.href = page;
