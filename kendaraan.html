@@ -2,45 +2,48 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tambah Data Kendaraan</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kelola Kendaraan</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
     <h2>Tambah Data Kendaraan</h2>
-    <input id="plat" placeholder="Plat Nomor">
-    <input id="letak" placeholder="Letak">
-    <input id="stnk" placeholder="STNK">
-    <input id="statusStnk" placeholder="Status STNK">
-    <input id="kir" placeholder="KIR">
-    <input id="statusKir" placeholder="Status KIR">
-    <input id="servis" placeholder="Servis Terakhir">
+
+    <input type="text" id="plat" placeholder="Plat Nomor" required />
+    <input type="text" id="letak" placeholder="Letak (Wilayah)" />
+    <label>STNK:</label>
+    <input type="date" id="stnk" />
+    <label>KIR:</label>
+    <input type="date" id="kir" />
+    <label>Servis Terakhir:</label>
+    <input type="date" id="servis" />
+
     <button onclick="tambahKendaraan()">Simpan</button>
     <button onclick="window.location.href='dashboard.html'" class="secondary">Kembali</button>
-  </div>
-  <script>
-    async function tambahKendaraan() {
-      const PlatNomor = document.getElementById("plat").value;
-      const Letak = document.getElementById("letak").value;
-      const STNK = document.getElementById("stnk").value;
-      const StatusSTNK = document.getElementById("statusStnk").value;
-      const KIR = document.getElementById("kir").value;
-      const StatusKIR = document.getElementById("statusKir").value;
-      const ServisTerakhir = document.getElementById("servis").value;
 
-      const res = await fetch("https://script.google.com/macros/s/AKfycbzd91qb4YCMfYSUzpg7og1rPEAj27GNA0jEvoOsXzG_YN8lysrEnoGSlNcZq6jvHRTu/exec", {
-        method: "POST",
-        body: JSON.stringify({
-          action: "addKendaraan",
-          PlatNomor, Letak, STNK, StatusSTNK, KIR, StatusKIR, ServisTerakhir
-        }),
-      });
-      const result = await res.json();
-      alert(result.message);
-      if (result.success) window.location.href = "dashboard.html";
-    }
-  </script>
+    <hr>
+    <h3>Data Kendaraan</h3>
+    <input type="text" id="search" placeholder="Cari plat atau letak..." onkeyup="cariData()" />
+
+    <table>
+      <thead>
+        <tr>
+          <th>Plat Nomor</th>
+          <th>Letak</th>
+          <th>STNK</th>
+          <th>Status STNK</th>
+          <th>KIR</th>
+          <th>Status KIR</th>
+          <th>Servis Terakhir</th>
+          <th>Keterangan Servis</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="kendaraanBody"></tbody>
+    </table>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
