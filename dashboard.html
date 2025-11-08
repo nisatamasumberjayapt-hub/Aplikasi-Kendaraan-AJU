@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <header>
-    <h2>Dashboard</h2>
+<body onload="loadKendaraan()">
+  <div class="dashboard">
+    <h2>Dashboard Aplikasi Kendaraan</h2>
     <nav>
-      <button onclick="goTo('kendaraan.html')">Kendaraan</button>
-      <button onclick="goTo('register.html')">Tambah User</button>
-      <button onclick="logout()">Logout</button>
+      <button onclick="window.location.href='kendaraan.html'">Kelola Kendaraan</button>
+      <button onclick="window.location.href='user.html'">Data User</button>
+      <button onclick="window.location.href='index.html'">Logout</button>
     </nav>
-  </header>
 
-  <main>
-    <h3>Daftar Kendaraan</h3>
-    <table id="tabelKendaraan">
+    <table>
       <thead>
         <tr>
           <th>Plat Nomor</th>
@@ -28,12 +25,11 @@
           <th>KIR</th>
           <th>Status KIR</th>
           <th>Servis Terakhir</th>
-          <th>Selisih Servis</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="kendaraanBody"></tbody>
     </table>
-  </main>
+  </div>
 
   <script src="app.js"></script>
 </body>
