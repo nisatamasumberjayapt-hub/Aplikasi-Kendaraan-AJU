@@ -1,5 +1,5 @@
 // === KONFIGURASI URL GOOGLE APPS SCRIPT ===
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3aZMSBr0yT50U4983kbgCKPueGYaLG5cYG71q9qZtCYrcVV5kdOi0O271ucWsUbJd/exec"; // Ganti dengan URL Web App kamu
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-eGPw8xnz6I44usEMBzT0-crw4iLnbt0tmiYlFcbqyadnpms35DYn73iieMSBx1ed/exec"; // Ganti dengan URL Web App kamu
 
 // === LOGIN ===
 document.addEventListener("DOMContentLoaded", function () {
