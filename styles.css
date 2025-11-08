@@ -1,58 +1,57 @@
 body {
-  font-family: Arial, sans-serif;
-  background: #f1f1f1;
-  margin: 0;
-  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f4f6fa url('bg-kendaraan.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.container {
-  background: white;
-  padding: 20px;
-  max-width: 400px;
-  margin: 50px auto;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-h2, h3 {
+.container, .dashboard {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  width: 90%;
+  max-width: 450px;
   text-align: center;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
+.logo {
+  width: 100px;
+  margin-bottom: 20px;
 }
 
 input {
-  margin-bottom: 10px;
-  padding: 8px;
+  width: 90%;
+  padding: 10px;
+  margin: 8px 0;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
 }
 
 button {
-  background: #007bff;
-  color: white;
-  border: none;
+  width: 95%;
   padding: 10px;
-  border-radius: 5px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
+}
+
+button.secondary {
+  background-color: #6c757d;
 }
 
 button:hover {
-  background: #0056b3;
+  opacity: 0.9;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  background: #007bff;
-  color: white;
-  padding: 10px;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+a {
+  color: #007bff;
+  text-decoration: none;
 }
