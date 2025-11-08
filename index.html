@@ -3,17 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aplikasi Kendaraan</title>
+  <title>Login - Aplikasi Kendaraan</title>
   <link rel="stylesheet" href="styles.css">
-  <script>
-    window.onload = () => {
-      if (localStorage.getItem("user")) {
-        window.location.href = "dashboard.html";
-      } else {
-        window.location.href = "login.html";
-      }
-    };
-  </script>
 </head>
-<body></body>
+<body>
+  <div class="container">
+    <h2>Login Aplikasi Kendaraan</h2>
+    <form id="loginForm">
+      <label>Username</label>
+      <input type="text" id="username" required>
+
+      <label>Password</label>
+      <input type="password" id="password" required>
+
+      <button type="submit">Login</button>
+      <p>Belum punya akun? <a href="register.html">Daftar di sini</a></p>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", loginUser);
+  </script>
+</body>
 </html>
