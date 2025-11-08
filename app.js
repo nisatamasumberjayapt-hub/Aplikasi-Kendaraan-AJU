@@ -1,20 +1,30 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbwsDMvJGPUTbqhqhJNgsXNHSgEh6AxMzZXdRFtSBrRUKHiPMG86Gi1xn3G345Z7oJ6g/exec'; // dari Google Apps Script deployment
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwsDMvJGPUTbqhqhJNgsXNHSgEh6AxMzZXdRFtSBrRUKHiPMG86Gi1xn3G345Z7oJ6g/exec'; 
+// Ganti sesuai URL WebApp kamu
 
+// Navigasi antar halaman
 function goTo(page) {
   window.location.href = page;
 }
 
+// Logout
 function logout() {
   localStorage.removeItem('user');
   window.location.href = 'login.html';
 }
 
+// === LOGIN ===
 function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    alert('Isi username dan password!');
+    return;
+  }
 
   fetch(scriptURL, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'login', username, password })
   })
   .then(res => res.json())
@@ -23,92 +33,65 @@ function login() {
       localStorage.setItem('user', JSON.stringify(data.user));
       window.location.href = 'dashboard.html';
     } else {
-      alert('Login gagal');
+      alert(data.message || 'Login gagal');
     }
+  })
+  .catch(err => {
+    console.error('Error saat login:', err);
+    alert('Gagal terhubung ke server');
   });
 }
 
+// === TAMBAH USER ===
 function tambahUser() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const role = document.getElementById('role').value;
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const role = document.getElementById('role').value.trim();
+
+  if (!username || !password || !role) {
+    alert('Semua kolom harus diisi!');
+    return;
+  }
 
   fetch(scriptURL, {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'addUser', username, password, role })
-  })
-  .then(() => alert('User berhasil ditambah!'));
-}
-
-function tambahKendaraan() {
-  const data = {
-    action: 'addKendaraan',
-    platNomor: document.getElementById('platNomor').value,
-    letak: document.getElementById('letak').value,
-    stnk: document.getElementById('stnk').value,
-    statusStnk: document.getElementById('statusStnk').value,
-    kir: document.getElementById('kir').value,
-    statusKir: document.getElementById('statusKir').value,
-    servisTerakhir: document.getElementById('servisTerakhir').value
-  };
-
-  fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-  .then(() => alert('Kendaraan disimpan!'));
-}
-const scriptURL = 'https://script.google.com/macros/s/AKfycbwsDMvJGPUTbqhqhJNgsXNHSgEh6AxMzZXdRFtSBrRUKHiPMG86Gi1xn3G345Z7oJ6g/exec'; // dari Google Apps Script deployment
-
-function goTo(page) {
-  window.location.href = page;
-}
-
-function logout() {
-  localStorage.removeItem('user');
-  window.location.href = 'login.html';
-}
-
-function login() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
-  fetch(scriptURL, {
-    method: 'POST',
-    body: JSON.stringify({ action: 'login', username, password })
   })
   .then(res => res.json())
   .then(data => {
-    if (data.success) {
-      localStorage.setItem('user', JSON.stringify(data.user));
-      window.location.href = 'dashboard.html';
-    } else {
-      alert('Login gagal');
-    }
+    alert(data.message || 'User berhasil ditambah!');
+  })
+  .catch(err => {
+    console.error('Error tambah user:', err);
+    alert('Gagal menambah user');
   });
 }
 
-function tambahUser() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const role = document.getElementById('role').value;
-
-  fetch(scriptURL, {
-    method: 'POST',
-    body: JSON.stringify({ action: 'addUser', username, password, role })
-  })
-  .then(() => alert('User berhasil ditambah!'));
-}
-
+// === TAMBAH KENDARAAN ===
 function tambahKendaraan() {
   const data = {
     action: 'addKendaraan',
-    platNomor: document.getElementById('platNomor').value,
-    letak: document.getElementById('letak').value,
-    stnk: document.getElementById('stnk').value,
-    statusStnk: document.getElementById('statusStnk').value,
-    kir: document.getElementById('kir').value,
-    statusKir: document.getElementById('statusKir').value,
-    servisTerakhir: document.getElementById('servisTerakhir').value
+    platNomor: document.getElementById('platNomor').value.trim(),
+    letak: document.getElementById('letak').value.trim(),
+    stnk: document.getElementById('stnk').value.trim(),
+    statusStnk: document.getElementById('statusStnk').value.trim(),
+    kir: document.getElementById('kir').value.trim(),
+    statusKir: document.getElementById('statusKir').value.trim(),
+    servisTerakhir: document.getElementById('servisTerakhir').value.trim()
   };
 
-  fetch(scriptURL, { method: 'POST', body: JSON.stringify(data) })
-  .then(() => alert('Kendaraan disimpan!'));
+  fetch(scriptURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(result => {
+    alert(result.message || 'Data kendaraan berhasil disimpan!');
+  })
+  .catch(err => {
+    console.error('Error tambah kendaraan:', err);
+    alert('Gagal menyimpan kendaraan');
+  });
 }
