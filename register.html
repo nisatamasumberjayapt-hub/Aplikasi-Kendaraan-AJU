@@ -3,30 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - Aplikasi Kendaraan</title>
+  <title>Dashboard</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="navbar">
+    <h2>Dashboard Kendaraan</h2>
+    <button onclick="logout()">Logout</button>
+  </div>
+
   <div class="container">
-    <h2>Registrasi Akun</h2>
-    <form id="registerForm">
-      <label>Nama Lengkap</label>
-      <input type="text" id="namalengkap" required>
-
-      <label>Username</label>
-      <input type="text" id="username" required>
-
-      <label>Password</label>
-      <input type="password" id="password" required>
-
-      <button type="submit">Daftar</button>
-      <p>Sudah punya akun? <a href="index.html">Login</a></p>
-    </form>
+    <h3>Data Kendaraan</h3>
+    <table id="tabelKendaraan" border="1" cellpadding="8">
+      <thead>
+        <tr>
+          <th>Plat Nomor</th>
+          <th>Letak</th>
+          <th>STNK</th>
+          <th>Status STNK</th>
+          <th>KIR</th>
+          <th>Status KIR</th>
+          <th>Servis Terakhir</th>
+          <th>Selisih Servis</th>
+        </tr>
+      </thead>
+      <tbody id="dataBody"></tbody>
+    </table>
   </div>
 
   <script src="app.js"></script>
   <script>
-    document.getElementById("registerForm").addEventListener("submit", registerUser);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) window.location.href = "index.html";
+
+    async function loadData() {
+      const res = await fetch(SCRIPT_URL + "?action=getKendaraan");
+      const data = await res.json();
+
+      const body = document.getElementById("dataBody");
+      body.innerHTML = "";
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${row.plat_nomor}</td>
+          <td>${row.Letak}</td>
+          <td>${row.stnk}</td>
+          <td>${row.status_stnk}</td>
+          <td>${row.kir}</td>
+          <td>${row.status_kir}</td>
+          <td>${row.servis_terakhir}</td>
+          <td>${row.selisih_servis}</td>
+        `;
+        body.appendChild(tr);
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem("user");
+      window.location.href = "index.html";
+    }
+
+    loadData();
   </script>
 </body>
 </html>
