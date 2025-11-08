@@ -3,28 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Profil Pengguna</title>
+  <title>Data User</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h2>Profil Pengguna</h2>
-    <div id="userInfo"></div>
-    <button onclick="logout()">Logout</button>
+    <h2>Data User (Demo)</h2>
+    <p>Fitur ini hanya placeholder untuk daftar user.</p>
+    <button onclick="window.location.href='dashboard.html'">Kembali</button>
   </div>
-
-  <script>
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) window.location.href = "index.html";
-    document.getElementById("userInfo").innerHTML = `
-      <p><strong>Nama Lengkap:</strong> ${user.namalengkap}</p>
-      <p><strong>Username:</strong> ${user.username}</p>
-      <p><strong>Role:</strong> ${user.role}</p>
-    `;
-    function logout() {
-      localStorage.removeItem("user");
-      window.location.href = "index.html";
-    }
-  </script>
 </body>
 </html>
